@@ -10,41 +10,44 @@ export class Task {
 }
 
 export class TodoListHandler {
+    #listName;
+    #todoList;
+
     constructor(content, listName = "todo-list") {
-        this.listName = listName;
-        this.todoList = this.initTodoList(content);
+        this.#listName = listName;
+        this.#todoList = this.#initTodoList(content);
     }
 
-    initTodoList(content){
-        let todoList = JSON.parse(localStorage.getItem(this.listName));
+    #initTodoList(content){
+        let todoList = JSON.parse(localStorage.getItem(this.#listName));
         if (todoList === null) {
-            this.save(content);
-            return JSON.parse(localStorage.getItem(this.listName));
+            this.#save(content);
+            return JSON.parse(localStorage.getItem(this.#listName));
         }
         return todoList
     }
 
-    get allTasks() { return this.todoList }
+    get allTasks() { return [...this.#todoList] }
 
-    save(content = this.todoList){ localStorage.setItem(this.listName, JSON.stringify(content)); }
+    #save(content = this.#todoList){ localStorage.setItem(this.#listName, JSON.stringify(content)); }
 
     addTask(task) {
-        this.todoList.push(task);
-        this.save();
+        this.#todoList.push(task);
+        this.#save();
     }
 
     removeTask (taskIdx) {
-        this.todoList.splice(taskIdx, 1);
-        this.save();
+        this.#todoList.splice(taskIdx, 1);
+        this.#save();
     }
 
     updateTaskStatus(taskIdx, status) {
-        this.todoList[taskIdx].status = (status === false) ? true : false;
-        this.save();
+        this.#todoList[taskIdx].status = (status === false) ? true : false;
+        this.#save();
     }
 
     editTaskInfo(taskIdx, field, info) {
-        this.todoList[taskIdx][field] = info;
-        this.save();
+        this.#todoList[taskIdx][field] = info;
+        this.#save();
     }
 }
