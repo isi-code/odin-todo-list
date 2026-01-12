@@ -4,11 +4,17 @@ import todoList from './todo-list.json'
 
 const pageContContainer = document.getElementById("content");
 
+/** This class purpose is to orchestrate all other JS classes needed in the todo-list.*/
 class TodoListApp {
+    /**
+     * Creates intances for other classes 
+     * 
+     * @param {HTMLElement} container This is where all HTML generated should point to.
+     * @param {string} todoListContent This is an optional parameter to add content when creating the todo list for the first time.
+     */
     constructor(container, todoListContent = '[]'){
-
         this.todoList = new TodoListHandler(todoListContent);
-        this.taskDom = new TodoListDom(container,this.todoList.allTasks);
+        this.taskDom = new TodoListDom(container, this.todoList.allTasks);
     }
 
     // createNewTask(title,desc, dueDate, priority, project = ""){
@@ -16,5 +22,4 @@ class TodoListApp {
     // }
 }
 
-//const testTask = new Task ("Dance Disco Music","Dance the night away","2026-01-06","Low");
 new TodoListApp(pageContContainer, todoList);
