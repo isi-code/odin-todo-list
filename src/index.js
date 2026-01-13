@@ -1,3 +1,4 @@
+import feather from 'feather-icons'
 import { Task, TodoListHandler } from "./todo.js";
 import { TodoListDomFactory, TodoListRender } from "./todo-dom.js"
 import todoList from './todo-list.json'
@@ -21,6 +22,7 @@ class TodoListApp {
     
     init(){
         this.todoListRender.renderNavBar();
+        feather.replace();
         this.todoListRender.renderUnfinishedTasks(this.todoList.allTasks);
     }
 
