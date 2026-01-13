@@ -1,5 +1,5 @@
 import { Task, TodoListHandler } from "./todo.js";
-import { TodoListRender } from "./todo-dom.js"
+import { TodoListDomFactory, TodoListRender } from "./todo-dom.js"
 import todoList from './todo-list.json'
 
 const pageContContainer = document.getElementById("content");
@@ -14,9 +14,16 @@ class TodoListApp {
      */
     constructor(container, todoListContent = '[]'){
         this.todoList = new TodoListHandler(todoListContent);
-        this.taskRender = new TodoListRender(container);
-        this.taskRender.renderUnfinishedTasks(this.todoList.allTasks);
+        this.domBuilder = new TodoListDomFactory();
+        this.todoListRender = new TodoListRender(container, this.domBuilder);
+        this.init();
+    }   
+    
+    init(){
+        this.todoListRender.renderNavBar();
+        this.todoListRender.renderUnfinishedTasks(this.todoList.allTasks);
     }
+
 
     // createNewTask(title,desc, dueDate, priority, project = ""){
     //     todoList.addTask(new Task(title, desc, dueDate, priority, project));

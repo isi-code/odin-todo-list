@@ -1,14 +1,12 @@
-class TodoListDom {
-    constructor(mainContainer) {
-        this.mainContainer = mainContainer;
-        this.navSection = document.createElement("header");
-        this.navigationMap = [
-            "Inbox",
-            "Today",
-            "Upcoming",
-            "Completed",
-            "Projects"
-        ];
+export class TodoListDomFactory {
+    constructor() {
+        this.navigationMap = {
+            Inbox: {iconName:"inbox"},
+            Today : {iconName:"sun"},
+            Upcoming: {iconName:"trending-up"},
+            Completed : {iconName:"check-circle"},
+            Projects : {iconName:"folder"}
+        };
         this.taskTagMap = {
             title: {tag:"h3"},
             description: {tag:"p"},
@@ -20,7 +18,7 @@ class TodoListDom {
         this.todoListSection = document.createElement("section");
     }
 
-    createTodoListDom (task){
+    createTask(task){
         const taskContainer = document.createElement("div");
         taskContainer.setAttribute("class", "taskContainer");
 
@@ -38,38 +36,49 @@ class TodoListDom {
         return taskContainer
     }
 
-    createNavBarDom(){
+    createTodoList(task){
+        this.todoListSection.append(this.createTask(task));
+        return this.todoListSection
+    }
+
+    createNavBar(){
+        const header = document.createElement("header");
         const nav = document.createElement("nav");
         const ul = document.createElement("ul");
 
-        this.navigationMap.forEach( textMenu => {
+        for ( const [ key, {iconKey, iconName} ] of Object.entries(this.navigationMap)){
             const li = document.createElement("li");
-            const icon = document.createElement("span");
-            icon.className = "";
-            li.textContent = textMenu;
-            li.append(icon);
+            const span = document.createElement("span");
+            const icon = document.createElement("i");
+            icon.setAttribute("data-feather", iconName);
+            span.textContent = key;
+            li.append(icon, span);
             ul.append(li);
-        });
+        }
 
         nav.append(ul)
-        this.navSection.append(nav);
+        header.append(nav);
+        return header
     }
 }
 
-export class TodoListRender extends TodoListDom {
-    constructor(mainContainer) {
-        super(mainContainer);
-        this.renderNavBar();
+export class TodoListRender {
+    constructor(mainContainer, domBuilder) {
+        this.mainContainer = mainContainer;
+        this.domBuilder = domBuilder;
     }
 
     renderNavBar(){ 
-        this.createNavBarDom();
-        this.mainContainer.append(this.navSection);
+        const navBar = this.domBuilder.createNavBar();
+        this.mainContainer.append(navBar);
     }
 
     renderAllTasks(tasks){ tasks.forEach(task => {this.renderTask(task)}) }
 
-    renderTask(taskData){ this.mainContainer.append(this.createTodoListDom(taskData)) }
+    renderTask(taskData){ 
+        const task = this.domBuilder.createTodoList(taskData);
+        this.mainContainer.append(task)
+    }
 
     renderUnfinishedTasks(tasks){
         const unfinishedTasks = tasks.filter( task => {return task.status === false});
