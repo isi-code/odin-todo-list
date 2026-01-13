@@ -1,8 +1,15 @@
 export class TodoListDom {
     constructor(mainContainer) {
         this.mainContainer = mainContainer;
-        this.todoListSection = document.createElement("section");
-        this.navSection = document.createElement("nav");
+        this.navSection = document.createElement("header");
+        this.navigationMap = [
+            "Inbox",
+            "Today",
+            "Upcoming",
+            "Completed",
+            "Projects"
+        ];
+        this.renderNavBar();
         this.taskTagMap = {
             title: {tag:"h3"},
             description: {tag:"p"},
@@ -11,7 +18,7 @@ export class TodoListDom {
             status: {tag:"input", type:"checkbox"},
             project: {tag:"div"}
         };
-        this.navigationMap = ["Inbox","Today","Upcoming","Completed","Projects"]
+        this.todoListSection = document.createElement("section");
     }
 
     renderAllTasks(tasks){ tasks.forEach(task => {this.renderTask(task)}) }
@@ -23,18 +30,43 @@ export class TodoListDom {
         this.renderAllTasks(unfinishedTasks);
     }
 
+    renderNavBar(){ 
+        this.createNavBarDom();
+        this.mainContainer.append(this.navSection);
+    }
+
     createTodoListDom (task){
         const taskContainer = document.createElement("div");
         taskContainer.setAttribute("class", "taskContainer");
+
         for (const [key, { tag, type }] of Object.entries(this.taskTagMap)) {
-            const htmlElement = document.createElement(tag);
-            
-            if(type) htmlElement.type = type;
+            if(task[key] !== ""){
+                const htmlElement = document.createElement(tag);
 
-            if (key !== "status") htmlElement.textContent = task[key];
+                if(type) htmlElement.type = type;
 
-            taskContainer.append(htmlElement);
+                if (key !== "status") htmlElement.textContent = task[key];
+
+                taskContainer.append(htmlElement);
+            }
         }
         return taskContainer
+    }
+
+    createNavBarDom(){
+        const nav = document.createElement("nav");
+        const ul = document.createElement("ul");
+
+        this.navigationMap.forEach( textMenu => {
+            const li = document.createElement("li");
+            const icon = document.createElement("span");
+            icon.className = "";
+            li.textContent = textMenu;
+            li.append(icon);
+            ul.append(li);
+        });
+
+        nav.append(ul)
+        this.navSection.append(nav);
     }
 }
