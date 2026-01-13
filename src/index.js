@@ -14,7 +14,8 @@ class TodoListApp {
      */
     constructor(container, todoListContent = '[]'){
         this.todoList = new TodoListHandler(todoListContent);
-        this.taskDom = new TodoListDom(container, this.todoList.allTasks);
+        this.taskDom = new TodoListDom(container);
+        this.taskDom.renderAllTasks(this.todoList.allTasks);
     }
 
     // createNewTask(title,desc, dueDate, priority, project = ""){
