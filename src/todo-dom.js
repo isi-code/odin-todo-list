@@ -14,18 +14,13 @@ export class TodoListDom {
         this.navigationMap = ["Inbox","Today","Upcoming","Completed","Projects"]
     }
 
-    renderAllTasks(tasks){
-        tasks.forEach(task => { 
-            this.mainContainer.append(this.createTodoListDom(task)); 
-            });
-    }
+    renderAllTasks(tasks){ tasks.forEach(task => {this.renderTask(task)}) }
 
-    renderAllUnfinishedTasks(tasks){
-        tasks.forEach( task => { 
-            if (task.status === false){ 
-                this.mainContainer.append(this.createTodoListDom(task)); 
-            } 
-        });
+    renderTask(taskData){ this.mainContainer.append(this.createTodoListDom(taskData)) }
+
+    renderUnfinishedTasks(tasks){
+        const unfinishedTasks = tasks.filter( task => {return task.status === false});
+        this.renderAllTasks(unfinishedTasks);
     }
 
     createTodoListDom (task){
