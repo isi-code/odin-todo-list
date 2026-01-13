@@ -1,4 +1,4 @@
-export class TodoListDom {
+class TodoListDom {
     constructor(mainContainer) {
         this.mainContainer = mainContainer;
         this.navSection = document.createElement("header");
@@ -9,7 +9,6 @@ export class TodoListDom {
             "Completed",
             "Projects"
         ];
-        this.renderNavBar();
         this.taskTagMap = {
             title: {tag:"h3"},
             description: {tag:"p"},
@@ -19,20 +18,6 @@ export class TodoListDom {
             project: {tag:"div"}
         };
         this.todoListSection = document.createElement("section");
-    }
-
-    renderAllTasks(tasks){ tasks.forEach(task => {this.renderTask(task)}) }
-
-    renderTask(taskData){ this.mainContainer.append(this.createTodoListDom(taskData)) }
-
-    renderUnfinishedTasks(tasks){
-        const unfinishedTasks = tasks.filter( task => {return task.status === false});
-        this.renderAllTasks(unfinishedTasks);
-    }
-
-    renderNavBar(){ 
-        this.createNavBarDom();
-        this.mainContainer.append(this.navSection);
     }
 
     createTodoListDom (task){
@@ -68,5 +53,26 @@ export class TodoListDom {
 
         nav.append(ul)
         this.navSection.append(nav);
+    }
+}
+
+export class TodoListRender extends TodoListDom {
+    constructor(mainContainer) {
+        super(mainContainer);
+        this.renderNavBar();
+    }
+
+    renderNavBar(){ 
+        this.createNavBarDom();
+        this.mainContainer.append(this.navSection);
+    }
+
+    renderAllTasks(tasks){ tasks.forEach(task => {this.renderTask(task)}) }
+
+    renderTask(taskData){ this.mainContainer.append(this.createTodoListDom(taskData)) }
+
+    renderUnfinishedTasks(tasks){
+        const unfinishedTasks = tasks.filter( task => {return task.status === false});
+        this.renderAllTasks(unfinishedTasks);
     }
 }
