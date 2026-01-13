@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "title": "Grocery Shopping",
         "description": "Pick up milk, eggs, chicken breast, and ingredients for Sunday meal prep.",
         "dueDate": "2026-01-07",
@@ -8,6 +9,7 @@
         "project":"Home"
     },
     {
+        "id": 2,
         "title": "Renew Gym Membership",
         "description": "Update credit card information on the portal and sign the new annual waiver.",
         "dueDate": "2026-01-08",
@@ -16,6 +18,7 @@
         "project":""
     },
     {
+        "id":3,
         "title": "Oil Change",
         "description": "Take the car to the mechanic for routine maintenance and tire pressure check.",
         "dueDate": "2026-01-12",
@@ -24,6 +27,7 @@
         "project":""
     },
     {
+        "id": 4,
         "title": "Water Indoor Plants",
         "description": "Check soil moisture for the fiddle leaf fig and add fertilizer to the pothos.",
         "dueDate": "2026-01-06",
@@ -32,6 +36,7 @@
         "project":""
     },
     {
+        "id": 5,
         "title": "Clean Kitchen Counters",
         "description": "Wipe down all surfaces and organize the spice rack.",
         "dueDate": "2026-01-06",

@@ -26,9 +26,12 @@ export class TodoListDomFactory {
             if(task[key] !== ""){
                 const htmlElement = document.createElement(tag);
 
-                if(type) htmlElement.type = type;
-
-                if (key !== "status") htmlElement.textContent = task[key];
+                if (key === "status") {
+                    htmlElement.type = type;
+                    const taskId = task.id ;
+                    htmlElement.name = taskId;
+                }
+                else htmlElement.textContent = task[key];
 
                 taskContainer.append(htmlElement);
             }
