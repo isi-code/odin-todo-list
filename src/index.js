@@ -1,4 +1,3 @@
-import feather from 'feather-icons'
 import { Task, TodoListHandler } from "./todo.js";
 import { TodoListDomFactory, TodoListRender } from "./todo-dom.js"
 import todoList from './todo-list.json'
@@ -22,14 +21,9 @@ class TodoListApp {
     
     init(){
         this.todoListRender.renderNavBar();
-        feather.replace();
         this.todoListRender.renderUnfinishedTasks(this.todoList.allTasks);
     }
 
-
-    // createNewTask(title,desc, dueDate, priority, project = ""){
-    //     todoList.addTask(new Task(title, desc, dueDate, priority, project));
-    // }
 }
 
 new TodoListApp(pageContContainer, todoList);

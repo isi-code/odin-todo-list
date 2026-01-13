@@ -1,11 +1,14 @@
+import feather from 'feather-icons';
+
 export class TodoListDomFactory {
     constructor() {
         this.navigationMap = {
-            Inbox: {iconName:"inbox"},
-            Today : {iconName:"sun"},
-            Upcoming: {iconName:"trending-up"},
-            Completed : {iconName:"check-circle"},
-            Projects : {iconName:"folder"}
+            newTask: {iconName:"file-plus", name:"New Task"},
+            inbox: {iconName:"inbox", name:"Inbox"},
+            today : {iconName:"sun", name:"Today"},
+            upcoming: {iconName:"trending-up", name:"Upcoming"},
+            completed : {iconName:"check-circle", name:"Completed"},
+            projects : {iconName:"folder", name:"Projects"}
         };
         this.taskTagMap = {
             title: {tag:"h3"},
@@ -25,7 +28,6 @@ export class TodoListDomFactory {
         for (const [key, { tag, type }] of Object.entries(this.taskTagMap)) {
             if(task[key] !== ""){
                 const htmlElement = document.createElement(tag);
-
                 if (key === "status") {
                     htmlElement.type = type;
                     const taskId = task.id ;
@@ -49,12 +51,13 @@ export class TodoListDomFactory {
         const nav = document.createElement("nav");
         const ul = document.createElement("ul");
 
-        for ( const [ key, {iconKey, iconName} ] of Object.entries(this.navigationMap)){
+        for ( const [ key, {iconName, name } ] of Object.entries(this.navigationMap)){
             const li = document.createElement("li");
+
             const span = document.createElement("span");
             const icon = document.createElement("i");
             icon.setAttribute("data-feather", iconName);
-            span.textContent = key;
+            span.textContent = name;
             li.append(icon, span);
             ul.append(li);
         }
@@ -74,6 +77,7 @@ export class TodoListRender {
     renderNavBar(){ 
         const navBar = this.domBuilder.createNavBar();
         this.mainContainer.append(navBar);
+        feather.replace();
     }
 
     renderAllTasks(tasks){ tasks.forEach(task => {this.renderTask(task)}) }
