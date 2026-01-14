@@ -18,7 +18,7 @@ export class TodoListDomFactory {
             status: {tag:"input", type:"checkbox"},
             project: {tag:"div"}
         };
-        this.todoListSection = document.createElement("section");
+        this.mainSection = document.createElement("main");
     }
 
     createTask(task){
@@ -41,9 +41,17 @@ export class TodoListDomFactory {
         return taskContainer
     }
 
-    createTodoList(task){
-        this.todoListSection.append(this.createTask(task));
-        return this.todoListSection
+    createTodoList(tasks){
+        const todoListSection = document.createElement("section");
+
+        tasks.forEach(task => {
+            const taskEl = this.createTask(task);
+            todoListSection.append(taskEl);
+        });
+
+        this.mainSection.append(todoListSection);
+
+        return this.mainSection
     }
 
     createNavBar(){
@@ -69,25 +77,23 @@ export class TodoListDomFactory {
 }
 
 export class TodoListRender {
-    constructor(mainContainer, domBuilder) {
-        this.mainContainer = mainContainer;
+    constructor(container, domBuilder) {
+        this.container = container;
         this.domBuilder = domBuilder;
     }
 
     renderNavBar(){ 
         const navBar = this.domBuilder.createNavBar();
-        this.mainContainer.append(navBar);
+        this.container.append(navBar);
         feather.replace();
     }
 
-    renderAllTasks(tasks){ tasks.forEach(task => {this.renderTask(task)}) }
-
-    renderTask(taskData){ 
-        const task = this.domBuilder.createTodoList(taskData);
-        this.mainContainer.append(task)
+    renderAllTasks(tasks){ 
+        const todoList = this.domBuilder.createTodoList(tasks);
+        this.container.append(todoList);
     }
 
-    renderUnfinishedTasks(tasks){
+    renderUnfinishedTasks(tasks){ 
         const unfinishedTasks = tasks.filter( task => {return task.status === false});
         this.renderAllTasks(unfinishedTasks);
     }
