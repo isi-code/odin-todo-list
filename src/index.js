@@ -24,6 +24,15 @@ class TodoListApp {
         this.todoListRender.renderUnfinishedTasks(this.todoList.allTasks);
     }
 
+    inbox(){
+        this.domBuilder.removeMainContent();
+        this.todoListRender.renderUnfinishedTasks(this.todoList.allTasks);
+    }
+
+    completed(){
+        this.domBuilder.removeMainContent();
+        this.todoListRender.renderCompletedTasks(this.todoList.allTasks);
+    }
 }
 
 new TodoListApp(pageContContainer, todoList);
