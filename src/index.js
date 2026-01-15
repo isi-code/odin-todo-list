@@ -21,6 +21,7 @@ class TodoListApp {
     
     init(){
         this.todoListRender.renderNavBar();
+        this.navEvents()
         this.todoListRender.renderUnfinishedTasks(this.todoList.allTasks);
     }
 
@@ -32,6 +33,25 @@ class TodoListApp {
     completed(){
         this.domBuilder.removeMainContent();
         this.todoListRender.renderCompletedTasks(this.todoList.allTasks);
+    }
+
+    newTask(){
+        console.log("It works!");
+    }
+
+    today(){
+        console.log("It works!");
+    }
+
+    upcoming(){
+        console.log("It works!");
+    }
+
+    navEvents(){
+        const liMenus = this.domBuilder.liMenus;
+        liMenus.forEach(li => {
+            if (this[li.id]) li.addEventListener("click", () => {this[li.id]() } );
+        });
     }
 }
 

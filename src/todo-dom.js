@@ -1,8 +1,11 @@
 import feather from 'feather-icons';
 
 export class TodoListDomFactory {
+    #navigation;
+    #task;
+
     constructor() {
-        this.navigationMap = {
+        this.#navigation = {
             newTask: {iconName:"file-plus", name:"New Task"},
             inbox: {iconName:"inbox", name:"Inbox"},
             today : {iconName:"sun", name:"Today"},
@@ -10,7 +13,7 @@ export class TodoListDomFactory {
             completed : {iconName:"check-circle", name:"Completed"},
             projects : {iconName:"folder", name:"Projects"}
         };
-        this.taskTagMap = {
+        this.#task = {
             title: {tag:"h3"},
             description: {tag:"p"},
             dueDate: {tag:"div"},
@@ -21,11 +24,18 @@ export class TodoListDomFactory {
         this.mainSection = document.createElement("main");
     }
 
+    get liMenus(){
+        const liMenus = Object.keys(this.#navigation).map(id => {
+            return document.getElementById(id);
+        });
+        return liMenus
+    }
+
     createTask(task){
         const taskContainer = document.createElement("div");
         taskContainer.setAttribute("class", "taskContainer");
 
-        for (const [key, { tag, type }] of Object.entries(this.taskTagMap)) {
+        for (const [key, { tag, type }] of Object.entries(this.#task)) {
             if(task[key] !== ""){
                 const htmlElement = document.createElement(tag);
                 if (key === "status") {
@@ -59,7 +69,7 @@ export class TodoListDomFactory {
         const nav = document.createElement("nav");
         const ul = document.createElement("ul");
 
-        for ( const [ key, {iconName, name } ] of Object.entries(this.navigationMap)){
+        for ( const [ key, {iconName, name } ] of Object.entries(this.#navigation)){
             const li = document.createElement("li");
             li.id = key;
 
