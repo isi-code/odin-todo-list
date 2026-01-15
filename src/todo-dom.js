@@ -61,11 +61,13 @@ export class TodoListDomFactory {
 
         for ( const [ key, {iconName, name } ] of Object.entries(this.navigationMap)){
             const li = document.createElement("li");
+            li.id = key;
 
             const span = document.createElement("span");
             const icon = document.createElement("i");
             icon.setAttribute("data-feather", iconName);
             span.textContent = name;
+
             li.append(icon, span);
             ul.append(li);
         }
@@ -73,6 +75,12 @@ export class TodoListDomFactory {
         nav.append(ul)
         header.append(nav);
         return header
+    }
+
+    removeMainContent(){
+        while (this.mainSection.lastChild) {
+            this.mainSection.removeChild(this.mainSection.lastChild);
+        }
     }
 }
 
@@ -96,5 +104,10 @@ export class TodoListRender {
     renderUnfinishedTasks(tasks){ 
         const unfinishedTasks = tasks.filter( task => {return task.status === false});
         this.renderAllTasks(unfinishedTasks);
+    }
+
+    renderCompletedTasks(tasks){ 
+        const finishedTasks = tasks.filter( task => {return task.status === true});
+        this.renderAllTasks(finishedTasks);
     }
 }
