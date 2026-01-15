@@ -43,12 +43,7 @@ export class TodoListHandler {
     }
 
     updateTaskStatus(taskIdx, status) {
-        this.#todoList[taskIdx].status = (status === false) ? true : false;
-        this.#save();
-    }
-
-    editTaskInfo(taskIdx, field, info) {
-        this.#todoList[taskIdx][field] = info;
+        this.#todoList[taskIdx].status = status;
         this.#save();
     }
 }
