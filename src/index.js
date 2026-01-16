@@ -1,3 +1,4 @@
+import "./style.css";
 import { Task, TodoListHandler } from "./todo.js";
 import { TodoListDomFactory, TodoListRender } from "./todo-dom.js"
 import todoList from './todo-list.json'
@@ -48,9 +49,11 @@ class TodoListApp {
     }
 
     navEvents(){
-        const liMenus = this.domBuilder.liMenus;
+        const liMenus = this.domBuilder.liMenus;        
         liMenus.forEach(li => {
-            if (this[li.id]) li.addEventListener("click", () => {this[li.id]() } );
+            if (this[li.dataset.menu]) {
+                li.addEventListener("click", () => { this[li.dataset.menu]() });
+            };
         });
     }
 }
