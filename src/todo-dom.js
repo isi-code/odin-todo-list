@@ -3,6 +3,7 @@ import feather from 'feather-icons';
 export class TodoListDomFactory {
     #navigation;
     #task;
+    #mainSection;
 
     constructor() {
         this.#navigation = {
@@ -21,19 +22,14 @@ export class TodoListDomFactory {
             status: {tag:"input", type:"checkbox"},
             project: {tag:"div"}
         };
-        this.mainSection = document.createElement("main");
+        this.#mainSection = document.createElement("main");
     }
 
-    get liMenus(){
-        const liMenus = Object.keys(this.#navigation).map(id => {
-            return document.getElementById(id);
-        });
-        return liMenus
-    }
+    get liMenus(){ return Array.from(document.querySelectorAll('[data-menu]')) }
 
-    createTask(task){
+    createTaskCard(task){
         const taskContainer = document.createElement("div");
-        taskContainer.setAttribute("class", "taskContainer");
+        taskContainer.className = "taskContainer";
 
         for (const [key, { tag, type }] of Object.entries(this.#task)) {
             if(task[key] !== ""){
@@ -55,41 +51,54 @@ export class TodoListDomFactory {
         const todoListSection = document.createElement("section");
 
         tasks.forEach(task => {
-            const taskEl = this.createTask(task);
+            const taskEl = this.createTaskCard(task);
             todoListSection.append(taskEl);
         });
 
-        this.mainSection.append(todoListSection);
+        this.#mainSection.append(todoListSection);
 
-        return this.mainSection
+        return this.#mainSection
     }
 
     createNavBar(){
         const header = document.createElement("header");
+
+        const logoCont = document.createElement("div");
+        logoCont.className = "logo-wrapper";
+        const logoText = document.createElement("span");
+        logoText.textContent = "Todo List"
+        const logo = document.createElement("i");
+        logo.setAttribute("data-feather","pen-tool");
+        
+        logoCont.append(logo,logoText);
+
         const nav = document.createElement("nav");
         const ul = document.createElement("ul");
 
-        for ( const [ key, {iconName, name } ] of Object.entries(this.#navigation)){
-            const li = document.createElement("li");
-            li.id = key;
-
-            const span = document.createElement("span");
-            const icon = document.createElement("i");
-            icon.setAttribute("data-feather", iconName);
-            span.textContent = name;
-
-            li.append(icon, span);
-            ul.append(li);
-        }
-
-        nav.append(ul)
-        header.append(nav);
+        for ( const [key, {iconName, name}] of Object.entries(this.#navigation))
+            ul.append(this.createMenu(key, iconName, name));
+        
+        nav.append(ul);
+        header.append(logoCont, nav);
         return header
     }
 
+    createMenu(key, iconName, name){
+        const li = document.createElement("li");
+        li.setAttribute("data-menu", key);
+
+        const menuText = document.createElement("span");
+        const icon = document.createElement("i");
+        icon.setAttribute("data-feather", iconName);
+        menuText.textContent = name;
+
+        li.append(icon, menuText);
+        return li;
+    }
+
     removeMainContent(){
-        while (this.mainSection.lastChild) {
-            this.mainSection.removeChild(this.mainSection.lastChild);
+        while (this.#mainSection.lastChild) {
+            this.#mainSection.removeChild(this.#mainSection.lastChild);
         }
     }
 }
