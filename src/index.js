@@ -21,30 +21,35 @@ class TodoListApp {
     }   
     
     init(){
-        this.todoListRender.renderNavBar();
-        this.navEvents()
-        this.todoListRender.renderUnfinishedTasks(this.todoList.allTasks);
+        this.todoListRender.navBar();
+        this.navEvents();
+        this.todoListRender.unfinishedTasks(this.todoList.allTasks);
     }
 
     inbox(){
-        this.domBuilder.removeMainContent();
-        this.todoListRender.renderUnfinishedTasks(this.todoList.allTasks);
+        this.refresh();
+        this.todoListRender.unfinishedTasks(this.todoList.allTasks);
     }
 
+    refresh(){ if(this.domBuilder.mainSectionHasContent) this.domBuilder.removeMainContent() }
+
     completed(){
-        this.domBuilder.removeMainContent();
-        this.todoListRender.renderCompletedTasks(this.todoList.allTasks);
+        this.refresh();
+        this.todoListRender.completedTasks(this.todoList.allTasks);
     }
 
     newTask(){
+        this.refresh();
         console.log("It works!");
     }
 
     today(){
+        this.refresh();
         console.log("It works!");
     }
 
     upcoming(){
+        this.refresh();
         console.log("It works!");
     }
 
