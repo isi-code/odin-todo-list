@@ -15,12 +15,13 @@ export class TodoListDomFactory {
             projects : {iconName:"folder", name:"Projects"}
         };
         this.#task = {
+            status: {tag:"input", type:"checkbox"},
             title: {tag:"h3"},
             description: {tag:"p"},
             dueDate: {tag:"div"},
             priority: {tag: "div"},
-            status: {tag:"input", type:"checkbox"},
             project: {tag:"div"}
+
         };
         this.#mainSection = document.createElement("main");
     }
@@ -30,25 +31,35 @@ export class TodoListDomFactory {
     createTaskCard(task){
         const taskContainer = document.createElement("div");
         taskContainer.className = "taskContainer";
+        // Create a div wrapper to wrap around task info
+        const infoWrapper = document.createElement("div");
+        infoWrapper.className = "info-wrapper";
 
         for (const [key, { tag, type }] of Object.entries(this.#task)) {
+            // Skip empty fields to keep the UI clean
             if(task[key] !== ""){
                 const htmlElement = document.createElement(tag);
+                // Special handling for the checkbox/status input
                 if (key === "status") {
                     htmlElement.type = type;
                     const taskId = task.id ;
-                    htmlElement.name = taskId;
+                    htmlElement.id = taskId;
+                    taskContainer.append(htmlElement);
                 }
-                else htmlElement.textContent = task[key];
-
-                taskContainer.append(htmlElement);
+                else {
+                    htmlElement.textContent = task[key];
+                    infoWrapper.append(htmlElement);
+                }
+                taskContainer.append(infoWrapper);
             }
+            
         }
         return taskContainer
     }
 
     createTodoList(tasks){
         const todoListSection = document.createElement("section");
+        todoListSection.className = "todo-list";
 
         tasks.forEach(task => {
             const taskEl = this.createTaskCard(task);
@@ -56,7 +67,6 @@ export class TodoListDomFactory {
         });
 
         this.#mainSection.append(todoListSection);
-
         return this.#mainSection
     }
 
