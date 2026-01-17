@@ -5,40 +5,40 @@ export class TodoListDomFactory {
   #task;
   #mainSection;
 
-   constructor() {
-        this.#navigation = {
-        newTask: { iconName: "file-plus", name: "New Task" },
-        inbox: { iconName: "inbox", name: "Inbox" },
-        today: { iconName: "sun", name: "Today" },
-        upcoming: { iconName: "trending-up", name: "Upcoming" },
-        completed: { iconName: "check-circle", name: "Completed" },
-        projects: { iconName: "folder", name: "Projects" },
-        };
-        
-        this.#task = {
-        status: {
-            mainTag: "input",
-            label: "Is it done?",
-            inputType: "checkbox",
-        },
-        title: { mainTag: "h3", label: "Title", inputType: "text" },
-        description: {
-            mainTag: "p",
-            label: "Description",
-            inputType: "textarea",
-        },
-        dueDate: { mainTag: "div", label: "Due date", inputType: "date" },
-        priority: {
-            mainTag: "div",
-            label: "Priority",
-            inputType: "select",
-            options: ["low", "medium", "high"],
-        },
-        project: { mainTag: "div", label: "Project", inputType: "text" },
-        };
+  constructor() {
+    this.#navigation = {
+    newTask: { iconName: "file-plus", name: "New Task" },
+    inbox: { iconName: "inbox", name: "Inbox" },
+    today: { iconName: "sun", name: "Today" },
+    upcoming: { iconName: "trending-up", name: "Upcoming" },
+    completed: { iconName: "check-circle", name: "Completed" },
+    projects: { iconName: "folder", name: "Projects" },
+    };
 
-        this.#mainSection = document.createElement("main");
+    this.#task = {
+    title: { mainTag: "h3", label: "Title", inputType: "text" },
+    description: {
+        mainTag: "p",
+        label: "Description",
+        inputType: "textarea",
+    },
+    dueDate: { mainTag: "div", label: "Due date", inputType: "date" },
+    priority: {
+        mainTag: "div",
+        label: "Priority",
+        inputType: "select",
+        options: ["Low", "Medium", "High"],
+    },
+    project: { mainTag: "div", label: "Project", inputType: "text" },
+    status: {
+        mainTag: "input",
+        label: "Is it done?",
+        inputType: "checkbox",
     }
+    };
+
+    this.#mainSection = document.createElement("main");
+  }
 
   get liMenus() {
     return Array.from(document.querySelectorAll("[data-menu]"));
@@ -125,12 +125,70 @@ export class TodoListDomFactory {
     return li;
   }
 
+  createAddTaskForm() {
+    const dialog = document.createElement("dialog");
+    const form = document.createElement("form");
+
+    for (const [key, { label, inputType }] of Object.entries(this.#task)) {
+        //This method return label and input
+        form.append(...this.createInputs(key, label, inputType));
+    }
+    //console.log(Array.from(form));
+
+    const hiddenInput= document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.value = crypto.randomUUID();
+
+    const submitBtn = document.createElement("button");
+    submitBtn.type = "submit";
+    submitBtn.textContent = "Add Task";
+
+    form.append(hiddenInput, submitBtn);
+    dialog.append(form);
+
+    return dialog
+  }
+
+  createInputs(key, label, inputType){
+    const labelTag = document.createElement("label");
+    labelTag.textContent = label;
+    labelTag.setAttribute("for", key);
+
+    let inputTag;
+    switch (inputType) {
+    case "textarea":
+        inputTag = document.createElement(inputType);            
+        break;
+
+    case "select":
+        inputTag = document.createElement(inputType);
+        const options = this.#task[key].options;
+        const optionTags = options.map(option => { 
+            const optionTag = document.createElement("option"); 
+            optionTag.value = option;
+            optionTag.textContent = option;
+
+            return optionTag
+        });
+        inputTag.append(...optionTags);
+        break;
+
+    default:
+        inputTag = document.createElement("input");
+        inputTag.type = inputType;
+        break;
+    }
+    inputTag.id = key;
+    inputTag.name = key;
+
+    return [labelTag, inputTag]
+  }
+
   removeMainContent() {
     while (this.#mainSection.lastChild) {
       this.#mainSection.removeChild(this.#mainSection.lastChild);
     }
   }
-
 }
 
 export class TodoListRender {
@@ -162,5 +220,9 @@ export class TodoListRender {
 
     render(element){ this.container.append(element) }
 
-    addTaskForm(){ this.render(this.domBuilder.createAddTaskForm()) }
+    addTaskForm(){
+        const form = this.domBuilder.createAddTaskForm();
+        this.render(form);
+        return form
+    }
 }

@@ -39,8 +39,16 @@ class TodoListApp {
     }
 
     newTask(){
-        this.refresh();
-        console.log("It works!");
+        const dialog = this.todoListRender.addTaskForm();
+        const form = dialog.querySelector("form");
+        console.log(form.elements);
+        form.addEventListener("submit", (e)=>{
+            e.preventDefault();
+            
+            //const newTask = new Task();
+            //this.todoList.addTask(newTask);
+            dialog.remove();
+        });
     }
 
     today(){
