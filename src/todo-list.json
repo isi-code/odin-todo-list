@@ -3,7 +3,7 @@
         "id": 1,
         "title": "Grocery Shopping",
         "description": "Pick up milk, eggs, chicken breast, and ingredients for Sunday meal prep.",
-        "dueDate": "2026-01-07",
+        "dueDate": "2026-01-07, 03:00 PM",
         "priority": "Medium",
         "status": true,
         "project":"Home"
@@ -12,7 +12,7 @@
         "id": 2,
         "title": "Renew Gym Membership",
         "description": "Update credit card information on the portal and sign the new annual waiver.",
-        "dueDate": "2026-02-08",
+        "dueDate": "2026-02-08, 04:00 PM",
         "priority": "Low",
         "status": false,
         "project":""
@@ -21,7 +21,7 @@
         "id":3,
         "title": "Oil Change",
         "description": "Take the car to the mechanic for routine maintenance and tire pressure check.",
-        "dueDate": "2026-02-12",
+        "dueDate": "2026-02-12, 05:00 PM",
         "priority": "High",
         "status": false,
         "project":""
@@ -30,7 +30,7 @@
         "id": 4,
         "title": "Water Indoor Plants",
         "description": "Check soil moisture for the fiddle leaf fig and add fertilizer to the pothos.",
-        "dueDate": "2026-01-22",
+        "dueDate": "2026-01-22, 07:00 PM",
         "priority": "Low",
         "status": false,
         "project":""
@@ -39,7 +39,7 @@
         "id": 5,
         "title": "Clean Kitchen Counters",
         "description": "Wipe down all surfaces and organize the spice rack.",
-        "dueDate": "2026-01-26",
+        "dueDate": "2026-01-26, 11:00 AM",
         "priority": "Medium",
         "status": false,
         "project":"Home"

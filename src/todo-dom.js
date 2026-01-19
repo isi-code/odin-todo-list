@@ -1,4 +1,5 @@
 import feather from 'feather-icons';
+import {parse, differenceInHours, startOfDay, endOfDay, isWithinInterval} from 'date-fns';
 
 export class TodoListDomFactory {
   #navigation;
@@ -200,6 +201,8 @@ export class TodoListRender {
     this.domBuilder = domBuilder;
   }
 
+    render(element){ this.container.append(element); }
+
     navBar(){ 
         const navBar = this.domBuilder.createNavBar();
         this.render(navBar);
@@ -216,12 +219,34 @@ export class TodoListRender {
         this.allTasks(unfinishedTasks);
     }
 
+    todayTasks(tasks){
+      const currentDateTime = new Date();
+
+      const todayTasks = tasks.filter(task => {
+        const dueDate = parse(task.dueDate,'yyyy-MM-dd, p', currentDateTime);
+        const isTodayTask = isWithinInterval(dueDate, {start: startOfDay(currentDateTime), end: endOfDay(currentDateTime)});
+        return isTodayTask === true && task.status === false
+      });
+
+      this.allTasks(todayTasks);
+    }
+
+    upcomingTasks(tasks){
+      const currentDateTime = new Date();
+      
+      const upcomingTasks = tasks.filter(task => {
+        const dueDate = parse(task.dueDate,'yyyy-MM-dd, p', currentDateTime);
+        const hoursDifference = differenceInHours(dueDate, currentDateTime);
+        return hoursDifference >= 24 && task.status === false
+      });
+
+      this.allTasks(upcomingTasks);
+    }
+
     completedTasks(tasks){ 
         const finishedTasks = tasks.filter( task => {return task.status === true});
         this.allTasks(finishedTasks);
-    }
-
-    render(element){ this.container.append(element) }
+    }   
 
     addTaskForm(){
         const form = this.domBuilder.createAddTaskForm();

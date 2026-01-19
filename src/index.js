@@ -55,12 +55,12 @@ class TodoListApp {
 
     today(){
         this.refresh();
-        console.log("It works!");
+        this.todoListRender.todayTasks(this.todoList.allTasks);
     }
 
     upcoming(){
         this.refresh();
-        console.log("It works!");
+        this.todoListRender.upcomingTasks(this.todoList.allTasks);
     }
 
     navEvents(){
