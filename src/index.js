@@ -41,6 +41,7 @@ class TodoListApp {
     newTask(){
         const dialog = this.todoListRender.addTaskForm();
         const form = dialog.querySelector("form");
+        const xBtn = dialog.querySelector(".xBtn");
         console.log(form.elements);
         form.addEventListener("submit", (e)=>{
             e.preventDefault();
@@ -49,6 +50,7 @@ class TodoListApp {
             //this.todoList.addTask(newTask);
             dialog.remove();
         });
+        xBtn.addEventListener("click", () => { dialog.remove(); });
     }
 
     today(){

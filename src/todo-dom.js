@@ -127,6 +127,9 @@ export class TodoListDomFactory {
 
   createAddTaskForm() {
     const dialog = document.createElement("dialog");
+    const xBtn = document.createElement("div");
+    xBtn.className = "xBtn";
+    xBtn.setAttribute("data-feather", 'x');
     const form = document.createElement("form");
 
     for (const [key, { label, inputType }] of Object.entries(this.#task)) {
@@ -144,7 +147,7 @@ export class TodoListDomFactory {
     submitBtn.textContent = "Add Task";
 
     form.append(hiddenInput, submitBtn);
-    dialog.append(form);
+    dialog.append(form, xBtn);
 
     return dialog
   }
@@ -192,10 +195,10 @@ export class TodoListDomFactory {
 }
 
 export class TodoListRender {
-    constructor(container, domBuilder) {
-        this.container = container;
-        this.domBuilder = domBuilder;
-    }
+  constructor(container, domBuilder) {
+    this.container = container;
+    this.domBuilder = domBuilder;
+  }
 
     navBar(){ 
         const navBar = this.domBuilder.createNavBar();
@@ -223,6 +226,7 @@ export class TodoListRender {
     addTaskForm(){
         const form = this.domBuilder.createAddTaskForm();
         this.render(form);
+        feather.replace();
         return form
     }
 }
