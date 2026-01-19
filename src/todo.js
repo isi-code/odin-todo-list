@@ -1,12 +1,19 @@
+import {parseISO, format} from 'date-fns';
+
 export class Task {
-    constructor(title, desc, dueDate, priority, project = "") {
+    constructor(title, description, dueDate, priority, project = "") {
         this.id = crypto.randomUUID();
         this.title = title;
-        this.description = desc;
-        this.dueDate = dueDate;
+        this.description = description;
+        this.dueDate = this.formatDate(dueDate);
         this.priority = priority;
         this.status = false;
         this.project = project;
+    }
+
+    formatDate(date){
+        const dueDate = parseISO(date);
+        return format(dueDate,'yyyy-MM-dd, p');
     }
 }
 

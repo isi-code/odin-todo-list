@@ -23,7 +23,7 @@ export class TodoListDomFactory {
         label: "Description",
         inputType: "textarea",
     },
-    dueDate: { mainTag: "div", label: "Due date", inputType: "date" },
+    dueDate: { mainTag: "div", label: "Due date", inputType: "datetime-local" },
     priority: {
         mainTag: "div",
         label: "Priority",
@@ -135,19 +135,14 @@ export class TodoListDomFactory {
 
     for (const [key, { label, inputType }] of Object.entries(this.#task)) {
         //This method return label and input
-        form.append(...this.createInputs(key, label, inputType));
+        if(key.toLowerCase() !== "status") form.append(...this.createInputs(key, label, inputType));
     }
-    //console.log(Array.from(form));
-
-    const hiddenInput= document.createElement("input");
-    hiddenInput.type = "hidden";
-    hiddenInput.value = crypto.randomUUID();
 
     const submitBtn = document.createElement("button");
     submitBtn.type = "submit";
     submitBtn.textContent = "Add Task";
 
-    form.append(hiddenInput, submitBtn);
+    form.append(submitBtn);
     dialog.append(form, xBtn);
 
     return dialog

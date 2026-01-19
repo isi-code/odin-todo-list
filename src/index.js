@@ -42,12 +42,15 @@ class TodoListApp {
         const dialog = this.todoListRender.addTaskForm();
         const form = dialog.querySelector("form");
         const xBtn = dialog.querySelector(".xBtn");
-        console.log(form.elements);
-        form.addEventListener("submit", (e)=>{
+        form.addEventListener("submit", (e) => {
             e.preventDefault();
-            
-            //const newTask = new Task();
-            //this.todoList.addTask(newTask);
+            const inputs = Array.from(form.elements).filter(elem => elem.name);
+            const values = {};
+
+            for(let i = 0; i < inputs.length; i++) values[inputs[i].name] = inputs[i].value;
+
+            const newTask = new Task(values.title, values.description, values.dueDate, values.priority, values.project);
+            this.todoList.addTask(newTask);
             dialog.remove();
         });
         xBtn.addEventListener("click", () => { dialog.remove(); });
