@@ -17,23 +17,19 @@ class TodoListApp {
         this.todoList = new TodoListHandler(todoListContent);
         this.domBuilder = new TodoListDomFactory();
         this.todoListRender = new TodoListRender(container, this.domBuilder);
-        this.currentPage = "";
+        this.currentPage = "inbox";
         this.init();
     }   
     
     init(){
-        this.todoListRender.navBar();
-        this.navEvents();
-        this.todoListRender.unfinishedTasks(this.todoList.allTasks);
-        this.currentPage = "inbox";
-        this.deleteTaskBtns();
+        this.navBar();
+        this.inbox();
+        this.menuHighlight();
     }
 
     inbox(){
         this.refresh();
         this.todoListRender.unfinishedTasks(this.todoList.allTasks);
-        this.currentPage = "inbox";
-        this.deleteTaskBtns();
     }
 
     refresh(){ if(this.domBuilder.mainSectionHasContent) this.domBuilder.removeMainContent() }
@@ -41,8 +37,6 @@ class TodoListApp {
     completed(){
         this.refresh();
         this.todoListRender.completedTasks(this.todoList.allTasks);
-        this.currentPage = "completed";
-        this.deleteTaskBtns();
     }
 
     newTask(){
@@ -67,36 +61,35 @@ class TodoListApp {
     today(){
         this.refresh();
         this.todoListRender.todayTasks(this.todoList.allTasks);
-        this.currentPage = "today";
-        this.deleteTaskBtns();
     }
 
     upcoming(){
         this.refresh();
         this.todoListRender.upcomingTasks(this.todoList.allTasks);
-        this.currentPage = "upcoming";
-        this.deleteTaskBtns();
+    }
+
+    navBar(){
+        this.todoListRender.navBar();
+        this.navEvents();
     }
 
     navEvents(){
         const liMenus = this.domBuilder.liMenus;        
         liMenus.forEach(li => {
-            if (this[li.dataset.menu]) {
-                li.addEventListener("click", () => { this[li.dataset.menu]() });
-            };
-        });
+        if (this[li.dataset.menu]) {
+            li.addEventListener("click", () => { 
+                this[li.dataset.menu]();
+                this.currentPage = li.dataset.menu;
+                this.menuHighlight();
+            });               
+        }});
     }
 
-    deleteTaskBtns(){
-        const removeTaskForms = document.querySelectorAll("form.removeTask");
-        for (let form of removeTaskForms){
-            form.addEventListener("submit", e => {
-                e.preventDefault();
-                const taskId = form.dataset.taskId;
-                this.todoList.removeTask(taskId);
-                console.log(typeof taskId, taskId);
-                this[this.currentPage](this.todoList.allTasks);
-            });
+    menuHighlight(){
+    const liMenus = this.domBuilder.liMenus;
+    for (let li of liMenus){
+        li.classList.remove("active");
+        if(li.dataset.menu === this.currentPage) li.classList.add("active");
         }
     }
 }
