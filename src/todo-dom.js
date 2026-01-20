@@ -52,32 +52,29 @@ export class TodoListDomFactory {
 
   createTaskCard(task) {
     const taskContainer = document.createElement("div");
-    taskContainer.className = "taskContainer";
-    // Create a div wrapper to wrap around task info
-    const infoWrapper = document.createElement("div");
-    infoWrapper.className = "info-wrapper";
+    taskContainer.classList = "taskContainer";
 
     for (const [key, { mainTag, inputType }] of Object.entries(this.#task)) {
       // Skip empty fields to keep the UI clean
       if (task[key] !== "") {
         const htmlElement = document.createElement(mainTag);
-        //const taskId = task.id;
         // Special handling for the checkbox/status input
         if (key === "status") {
           htmlElement.type = inputType;
           htmlElement.name = 'checkTask';
           taskContainer.append(htmlElement);
-        } else {
-          htmlElement.textContent = task[key];
-          infoWrapper.append(htmlElement);
         }
-        taskContainer.append(infoWrapper);
+        else {
+          htmlElement.textContent = task[key];
+          htmlElement.classList = key;
+        }
+        taskContainer.append(htmlElement);
       }
     }
 
     const form =  document.createElement("form");
     form.dataset.taskId = task.id;
-    form.className = "removeTask";
+    form.classList = "removeTask";
 
     const removeBtn =  document.createElement("button");
     removeBtn.textContent = "Remove Task";
@@ -90,7 +87,7 @@ export class TodoListDomFactory {
 
   createTodoList(tasks) {
     const todoListSection = document.createElement("section");
-    todoListSection.className = "todo-list";
+    todoListSection.classList = "todo-list";
 
     for (let task of tasks) {
       const taskEl = this.createTaskCard(task);
@@ -105,7 +102,7 @@ export class TodoListDomFactory {
     const header = document.createElement("header");
 
     const logoCont = document.createElement("div");
-    logoCont.className = "logo-wrapper";
+    logoCont.classList = "logo-wrapper";
     const logoText = document.createElement("span");
     logoText.textContent = "Todo List";
     const logo = document.createElement("i");
@@ -140,7 +137,7 @@ export class TodoListDomFactory {
   createAddTaskForm() {
     const dialog = document.createElement("dialog");
     const xBtn = document.createElement("div");
-    xBtn.className = "xBtn";
+    xBtn.classList = "xBtn";
     xBtn.setAttribute("data-feather", 'x');
     const form = document.createElement("form");
 
@@ -167,14 +164,14 @@ export class TodoListDomFactory {
     let inputTag;
     switch (inputType) {
     case "textarea":
-        inputTag = document.createElement(inputType);            
+        inputTag = document.createElement(inputType);
         break;
 
     case "select":
         inputTag = document.createElement(inputType);
         const options = this.#task[key].options;
-        const optionTags = options.map(option => { 
-            const optionTag = document.createElement("option"); 
+        const optionTags = options.map(option => {
+            const optionTag = document.createElement("option");
             optionTag.value = option;
             optionTag.textContent = option;
 
@@ -209,18 +206,18 @@ export class TodoListRender {
 
     render(element){ this.container.append(element); }
 
-    navBar(){ 
+    navBar(){
         const navBar = this.domBuilder.createNavBar();
         this.render(navBar);
         feather.replace();
     }
 
-    allTasks(tasks){ 
+    allTasks(tasks){
         const todoList = this.domBuilder.createTodoList(tasks);
         this.render(todoList);
     }
 
-    unfinishedTasks(tasks){ 
+    unfinishedTasks(tasks){
         const unfinishedTasks = tasks.filter( task => {return task.status === false});
         this.allTasks(unfinishedTasks);
     }
@@ -239,7 +236,7 @@ export class TodoListRender {
 
     upcomingTasks(tasks){
       const currentDateTime = new Date();
-      
+
       const upcomingTasks = tasks.filter(task => {
         const dueDate = parse(task.dueDate,'yyyy-MM-dd, p', currentDateTime);
         const hoursDifference = differenceInHours(dueDate, currentDateTime);
@@ -249,10 +246,10 @@ export class TodoListRender {
       this.allTasks(upcomingTasks);
     }
 
-    completedTasks(tasks){ 
+    completedTasks(tasks){
         const finishedTasks = tasks.filter( task => {return task.status === true});
         this.allTasks(finishedTasks);
-    }   
+    }
 
     addTaskForm(){
         const form = this.domBuilder.createAddTaskForm();
