@@ -17,6 +17,7 @@ class TodoListApp {
         this.todoList = new TodoListHandler(todoListContent);
         this.domBuilder = new TodoListDomFactory();
         this.todoListRender = new TodoListRender(container, this.domBuilder);
+        this.currentPage = "";
         this.init();
     }   
     
@@ -24,11 +25,15 @@ class TodoListApp {
         this.todoListRender.navBar();
         this.navEvents();
         this.todoListRender.unfinishedTasks(this.todoList.allTasks);
+        this.currentPage = "inbox";
+        this.deleteTaskBtns();
     }
 
     inbox(){
         this.refresh();
         this.todoListRender.unfinishedTasks(this.todoList.allTasks);
+        this.currentPage = "inbox";
+        this.deleteTaskBtns();
     }
 
     refresh(){ if(this.domBuilder.mainSectionHasContent) this.domBuilder.removeMainContent() }
@@ -36,6 +41,8 @@ class TodoListApp {
     completed(){
         this.refresh();
         this.todoListRender.completedTasks(this.todoList.allTasks);
+        this.currentPage = "completed";
+        this.deleteTaskBtns();
     }
 
     newTask(){
@@ -52,6 +59,7 @@ class TodoListApp {
             const newTask = new Task(values.title, values.description, values.dueDate, values.priority, values.project);
             this.todoList.addTask(newTask);
             dialog.remove();
+            
         });
         xBtn.addEventListener("click", () => { dialog.remove(); });
     }
@@ -59,11 +67,15 @@ class TodoListApp {
     today(){
         this.refresh();
         this.todoListRender.todayTasks(this.todoList.allTasks);
+        this.currentPage = "today";
+        this.deleteTaskBtns();
     }
 
     upcoming(){
         this.refresh();
         this.todoListRender.upcomingTasks(this.todoList.allTasks);
+        this.currentPage = "upcoming";
+        this.deleteTaskBtns();
     }
 
     navEvents(){
@@ -73,6 +85,19 @@ class TodoListApp {
                 li.addEventListener("click", () => { this[li.dataset.menu]() });
             };
         });
+    }
+
+    deleteTaskBtns(){
+        const removeTaskForms = document.querySelectorAll("form.removeTask");
+        for (let form of removeTaskForms){
+            form.addEventListener("submit", e => {
+                e.preventDefault();
+                const taskId = form.dataset.taskId;
+                this.todoList.removeTask(taskId);
+                console.log(typeof taskId, taskId);
+                this[this.currentPage](this.todoList.allTasks);
+            });
+        }
     }
 }
 

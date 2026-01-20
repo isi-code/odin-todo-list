@@ -61,11 +61,11 @@ export class TodoListDomFactory {
       // Skip empty fields to keep the UI clean
       if (task[key] !== "") {
         const htmlElement = document.createElement(mainTag);
+        //const taskId = task.id;
         // Special handling for the checkbox/status input
         if (key === "status") {
           htmlElement.type = inputType;
-          const taskId = task.id;
-          htmlElement.id = taskId;
+          htmlElement.name = 'checkTask';
           taskContainer.append(htmlElement);
         } else {
           htmlElement.textContent = task[key];
@@ -74,6 +74,17 @@ export class TodoListDomFactory {
         taskContainer.append(infoWrapper);
       }
     }
+
+    const form =  document.createElement("form");
+    form.dataset.taskId = task.id;
+    form.className = "removeTask";
+
+    const removeBtn =  document.createElement("button");
+    removeBtn.textContent = "Remove Task";
+
+    form.append(removeBtn);
+
+    taskContainer.append(form);
     return taskContainer;
   }
 
