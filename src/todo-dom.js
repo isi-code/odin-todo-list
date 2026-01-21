@@ -41,9 +41,9 @@ export class TodoListDomFactory {
     this.#mainSection = document.createElement("main");
   }
 
-  get liMenus() {
-    return Array.from(document.querySelectorAll("[data-menu]"));
-  }
+  // get liMenus() {
+  //   return Array.from(document.querySelectorAll("[data-menu]"));
+  // }
 
   get mainSectionHasContent() {
     if (this.#mainSection.children) return true;
@@ -207,19 +207,23 @@ export class TodoListRender {
     render(element){ this.container.append(element); }
 
     navBar(){
-        const navBar = this.domBuilder.createNavBar();
-        this.render(navBar);
+        const header = this.domBuilder.createNavBar();
+        this.render(header);
         feather.replace();
+        const nav = header.querySelector("nav");
+        return nav
     }
 
     allTasks(tasks){
-        const todoList = this.domBuilder.createTodoList(tasks);
-        this.render(todoList);
+        const mainContent = this.domBuilder.createTodoList(tasks);
+        const todoList = mainContent.querySelector(".todo-list");
+        this.render(mainContent);
+        return todoList
     }
 
     unfinishedTasks(tasks){
         const unfinishedTasks = tasks.filter( task => {return task.status === false});
-        this.allTasks(unfinishedTasks);
+        return this.allTasks(unfinishedTasks);
     }
 
     todayTasks(tasks){
@@ -231,7 +235,7 @@ export class TodoListRender {
         return isTodayTask === true && task.status === false
       });
 
-      this.allTasks(todayTasks);
+      return this.allTasks(todayTasks);
     }
 
     upcomingTasks(tasks){
@@ -243,12 +247,12 @@ export class TodoListRender {
         return hoursDifference >= 24 && task.status === false
       });
 
-      this.allTasks(upcomingTasks);
+      return this.allTasks(upcomingTasks);
     }
 
     completedTasks(tasks){
         const finishedTasks = tasks.filter( task => {return task.status === true});
-        this.allTasks(finishedTasks);
+        return this.allTasks(finishedTasks);
     }
 
     addTaskForm(){
