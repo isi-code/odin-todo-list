@@ -17,25 +17,24 @@ class TodoListApp {
         this.todoList = new TodoListHandler(todoListContent);
         this.domBuilder = new TodoListDomFactory();
         this.todoListRender = new TodoListRender(container, this.domBuilder);
-        this.currentPage = "inbox";
+        this.currentPage = null;
         this.init();
     }   
     
     init(){
+        this.currentPage = "inbox";
         this.navBar();
         this.inbox();
     }
 
     inbox(){ 
         const todoList = this.todoListRender.unfinishedTasks(this.todoList.allTasks);
-        const removeForms = todoList.querySelectorAll(".removeTask");
-        this.taskRemoveBtns(removeForms);
+        this.taskEvents(todoList);
     }
 
     completed(){ 
         const todoList = this.todoListRender.completedTasks(this.todoList.allTasks);
-        const removeForms = todoList.querySelectorAll(".removeTask");
-        this.taskRemoveBtns(removeForms);
+        this.taskEvents(todoList);
     }
 
     newTask(){
@@ -59,23 +58,39 @@ class TodoListApp {
 
     today(){ 
         const todoList = this.todoListRender.todayTasks(this.todoList.allTasks);
-        const removeForms = todoList.querySelectorAll(".removeTask");
-        this.taskRemoveBtns(removeForms);
+        this.taskEvents(todoList);
     }
 
     upcoming(){ 
         const todoList = this.todoListRender.upcomingTasks(this.todoList.allTasks);
-        const removeForms = todoList.querySelectorAll(".removeTask");
-        this.taskRemoveBtns(removeForms);
+        this.taskEvents(todoList);
     }
 
-    taskRemoveBtns(removeTaskForms) {
-        for (let form of removeTaskForms){
+    taskEvents(todoList){
+        this.markTaskDone(todoList);
+        this.taskRemoveBtns(todoList);
+    }
+
+    markTaskDone(todoList){
+        const checkboxes = todoList.querySelectorAll("[name='checkDone']");
+        for (let checkbox of checkboxes) {
+            checkbox.addEventListener("change", () => {
+                this.todoList.updateTaskStatus(checkbox.dataset.taskId, true);
+                this.todoListRender.removeMainContent();
+                this[this.currentPage](this.todoList.allTasks);
+            });
+        }        
+    }
+
+    taskRemoveBtns(todoList) {
+        const removeForms = todoList.querySelectorAll(".removeTask");
+        for (let form of removeForms){
             form.addEventListener("submit", e => {
                 e.preventDefault();
                 const taskId = form.dataset.taskId;
                 this.todoList.removeTask(taskId);
-                console.log(typeof taskId, taskId);
+                //console.log(typeof taskId, taskId);
+                this.todoListRender.removeMainContent();
                 this[this.currentPage](this.todoList.allTasks);
             });
         }

@@ -49,7 +49,10 @@ export class TodoListDomFactory {
         // Special handling for the checkbox/status input
         if (key === "status") {
           htmlElement.type = inputType;
-          htmlElement.name = 'checkTask';
+          htmlElement.name = 'checkDone';
+          htmlElement.checked = task[key];
+          htmlElement.disabled = task[key];
+          htmlElement.dataset.taskId = task.id;
           taskContainer.append(htmlElement);
         }
         else {
