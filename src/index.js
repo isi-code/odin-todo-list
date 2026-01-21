@@ -24,19 +24,18 @@ class TodoListApp {
     init(){
         this.navBar();
         this.inbox();
-        this.menuHighlight();
     }
 
-    inbox(){
-        this.refresh();
-        this.todoListRender.unfinishedTasks(this.todoList.allTasks);
+    inbox(){ 
+        const todoList = this.todoListRender.unfinishedTasks(this.todoList.allTasks);
+        const removeForms = todoList.querySelectorAll(".removeTask");
+        this.taskRemoveBtns(removeForms);
     }
 
-    refresh(){ if(this.domBuilder.mainSectionHasContent) this.domBuilder.removeMainContent() }
-
-    completed(){
-        this.refresh();
-        this.todoListRender.completedTasks(this.todoList.allTasks);
+    completed(){ 
+        const todoList = this.todoListRender.completedTasks(this.todoList.allTasks);
+        const removeForms = todoList.querySelectorAll(".removeTask");
+        this.taskRemoveBtns(removeForms);
     }
 
     newTask(){
@@ -58,35 +57,54 @@ class TodoListApp {
         xBtn.addEventListener("click", () => { dialog.remove(); });
     }
 
-    today(){
-        this.refresh();
-        this.todoListRender.todayTasks(this.todoList.allTasks);
+    today(){ 
+        const todoList = this.todoListRender.todayTasks(this.todoList.allTasks);
+        const removeForms = todoList.querySelectorAll(".removeTask");
+        this.taskRemoveBtns(removeForms);
     }
 
-    upcoming(){
-        this.refresh();
-        this.todoListRender.upcomingTasks(this.todoList.allTasks);
+    upcoming(){ 
+        const todoList = this.todoListRender.upcomingTasks(this.todoList.allTasks);
+        const removeForms = todoList.querySelectorAll(".removeTask");
+        this.taskRemoveBtns(removeForms);
+    }
+
+    taskRemoveBtns(removeTaskForms) {
+        for (let form of removeTaskForms){
+            form.addEventListener("submit", e => {
+                e.preventDefault();
+                const taskId = form.dataset.taskId;
+                this.todoList.removeTask(taskId);
+                console.log(typeof taskId, taskId);
+                this[this.currentPage](this.todoList.allTasks);
+            });
+        }
     }
 
     navBar(){
-        this.todoListRender.navBar();
-        this.navEvents();
+        const nav = this.todoListRender.navBar();
+        const liMenus = nav.querySelectorAll("li"); 
+        this.navEvents(liMenus);
+        this.menuHighlight(liMenus);
     }
 
-    navEvents(){
-        const liMenus = this.domBuilder.liMenus;        
+    navEvents(liMenus){
         liMenus.forEach(li => {
         if (this[li.dataset.menu]) {
-            li.addEventListener("click", () => { 
-                this[li.dataset.menu]();
-                this.currentPage = li.dataset.menu;
-                this.menuHighlight();
+            li.addEventListener("click", () => {
+                if (li.dataset.menu !== "newTask"){
+                    this.domBuilder.removeMainContent();
+                    this[li.dataset.menu]();
+                    this.currentPage = li.dataset.menu;
+                    this.menuHighlight(liMenus);
+                } else {
+                    this[li.dataset.menu]();
+                } 
             });               
         }});
     }
 
-    menuHighlight(){
-    const liMenus = this.domBuilder.liMenus;
+    menuHighlight(liMenus){
     for (let li of liMenus){
         li.classList.remove("active");
         if(li.dataset.menu === this.currentPage) li.classList.add("active");
