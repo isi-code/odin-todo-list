@@ -2,18 +2,19 @@ import {parseISO, format} from 'date-fns';
 
 export class Task {
     constructor(title, description, dueDate, priority, project = "") {
-        this.id = crypto.randomUUID();
-        this.title = title;
-        this.description = description;
-        this.dueDate = this.formatDate(dueDate);
-        this.priority = priority;
-        this.status = false;
-        this.project = project;
+        this.createTask(title, description, this.formatDate(dueDate), priority, project);
     }
 
     formatDate(date){
         const dueDate = parseISO(date);
         return format(dueDate,'yyyy-MM-dd, p');
+    }
+
+    createTask(title, description, dueDate, priority, project){
+        const task = {};
+        const id = crypto.randomUUID();
+        task[id] = { title, description, dueDate, priority, project };
+        return task
     }
 }
 
@@ -35,22 +36,22 @@ export class TodoListHandler {
         return todoList
     }
 
-    get allTasks() { return [...this.#todoList] }
+    get allTasks() { return {...this.#todoList} }
 
-    #save(content = this.#todoList){ localStorage.setItem(this.#listName, JSON.stringify(content)); }
+    #save(){ localStorage.setItem(this.#listName, JSON.stringify(this.#todoList)); }
 
-    addTask(task) {
-        this.#todoList.push(task);
+    addTask(taskId, task) {
+        this.#todoList[taskId] = task;
         this.#save();
     }
 
-    removeTask (taskIdx) {
-        this.#todoList.splice(taskIdx, 1);
+    removeTask (taskId) {
+        delete this.#todoList[taskId];
         this.#save();
     }
 
-    updateTaskStatus(taskIdx, status) {
-        this.#todoList[taskIdx].status = status;
+    updateTaskStatus(taskId, status) {
+        this.#todoList[taskId].status = status;
         this.#save();
     }
 }
