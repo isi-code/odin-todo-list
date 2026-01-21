@@ -93,7 +93,7 @@ class TodoListApp {
         if (this[li.dataset.menu]) {
             li.addEventListener("click", () => {
                 if (li.dataset.menu !== "newTask"){
-                    this.domBuilder.removeMainContent();
+                    this.todoListRender.removeMainContent();
                     this[li.dataset.menu]();
                     this.currentPage = li.dataset.menu;
                     this.menuHighlight(liMenus);

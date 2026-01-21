@@ -4,7 +4,6 @@ import {parse, differenceInHours, startOfDay, endOfDay, isWithinInterval} from '
 export class TodoListDomFactory {
   #navigation;
   #task;
-  #mainSection;
 
   constructor() {
     this.#navigation = {
@@ -37,17 +36,6 @@ export class TodoListDomFactory {
         inputType: "checkbox",
     }
     };
-
-    this.#mainSection = document.createElement("main");
-  }
-
-  // get liMenus() {
-  //   return Array.from(document.querySelectorAll("[data-menu]"));
-  // }
-
-  get mainSectionHasContent() {
-    if (this.#mainSection.children) return true;
-    return false;
   }
 
   createTaskCard(task) {
@@ -94,8 +82,7 @@ export class TodoListDomFactory {
       todoListSection.append(taskEl);
     }
 
-    this.#mainSection.append(todoListSection);
-    return this.#mainSection;
+    return todoListSection
   }
 
   createNavBar() {
@@ -119,6 +106,12 @@ export class TodoListDomFactory {
     nav.append(ul);
     header.append(logoCont, nav);
     return header;
+  }
+
+  createMainContainer(content = null){ 
+    const main = document.createElement("main");
+    if (content) main.append(content);
+    return main; 
   }
 
   createMenu(key, iconName, name) {
@@ -191,11 +184,6 @@ export class TodoListDomFactory {
     return [labelTag, inputTag]
   }
 
-  removeMainContent() {
-    while (this.#mainSection.lastChild) {
-      this.#mainSection.removeChild(this.#mainSection.lastChild);
-    }
-  }
 }
 
 export class TodoListRender {
@@ -214,16 +202,20 @@ export class TodoListRender {
         return nav
     }
 
-    allTasks(tasks){
-        const mainContent = this.domBuilder.createTodoList(tasks);
-        const todoList = mainContent.querySelector(".todo-list");
-        this.render(mainContent);
+    todoList(tasks){
+        const todoList = this.domBuilder.createTodoList(tasks);
+        
+        let main = this.container.querySelector("main");
+        if(!main) main = this.domBuilder.createMainContainer();
+
+        main.append(todoList);
+        this.render(main);
         return todoList
     }
 
     unfinishedTasks(tasks){
         const unfinishedTasks = tasks.filter( task => {return task.status === false});
-        return this.allTasks(unfinishedTasks);
+        return this.todoList(unfinishedTasks);
     }
 
     todayTasks(tasks){
@@ -235,7 +227,7 @@ export class TodoListRender {
         return isTodayTask === true && task.status === false
       });
 
-      return this.allTasks(todayTasks);
+      return this.todoList(todayTasks);
     }
 
     upcomingTasks(tasks){
@@ -247,12 +239,12 @@ export class TodoListRender {
         return hoursDifference >= 24 && task.status === false
       });
 
-      return this.allTasks(upcomingTasks);
+      return this.todoList(upcomingTasks);
     }
 
     completedTasks(tasks){
         const finishedTasks = tasks.filter( task => {return task.status === true});
-        return this.allTasks(finishedTasks);
+        return this.todoList(finishedTasks);
     }
 
     addTaskForm(){
@@ -260,5 +252,10 @@ export class TodoListRender {
         this.render(form);
         feather.replace();
         return form
+    }
+
+    removeMainContent() {
+      const main = this.container.querySelector("main");
+      while (main.lastChild) main.removeChild(main.lastChild);
     }
 }
