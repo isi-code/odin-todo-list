@@ -13,7 +13,7 @@ class TodoListApp {
      * @param {HTMLElement} container This is where all HTML generated should point to.
      * @param {string} todoListContent This is an optional parameter to add content when creating the todo list for the first time.
      */
-    constructor(container, todoListContent = '[]'){
+    constructor(container, todoListContent = '{}'){
         this.todoList = new TodoListHandler(todoListContent);
         this.domBuilder = new TodoListDomFactory();
         this.todoListRender = new TodoListRender(container, this.domBuilder);

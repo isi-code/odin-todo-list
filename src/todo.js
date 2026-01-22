@@ -36,9 +36,9 @@ export class TodoListHandler {
         return todoList
     }
 
-    get allTasks() { return {...this.#todoList} }
+    get allTasks() { return Object.entries(this.#todoList); }
 
-    #save(){ localStorage.setItem(this.#listName, JSON.stringify(this.#todoList)); }
+    #save(content = this.#listName){ localStorage.setItem(this.#listName, JSON.stringify(content)); }
 
     addTask(taskId, task) {
         this.#todoList[taskId] = task;
