@@ -1,0 +1,67 @@
+/* Default styles */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+:root{
+    --default-padding:1rem;
+    --default-spacing:0.5rem;
+    --borders:15px;
+    --strong-color:rgb(91, 145, 224);
+    --light-color:rgb(207, 227, 247);;
+}
+
+#content{
+    display: grid;
+    grid-template-columns:min-content 1fr;
+}
+
+/* Header and Nav styles */
+header {
+    display: flex;
+    flex-direction: column;
+    background-color: aliceblue;
+    width:max-content;
+    grid-column: 1/2;
+    min-height: 100vh;
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--default-spacing);
+    padding: var(--default-padding);
+    user-select: none;
+    -webkit-user-select:none;
+    background-color:var(--strong-color);
+}
+
+.logo-wrapper span {font-size: larger; font-weight: 800; }
+
+.logo-wrapper > svg {
+    fill: white;
+    width: 2rem;
+    height: auto;
+}
+
+header nav ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+
+header nav ul li {
+    display: flex;
+    align-items: center;
+    gap: var(--default-spacing);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select:none;
+    padding: var(--default-padding);
+}
+
+header nav ul li:hover, nav ul li.active{
+    background-color: white;
+}

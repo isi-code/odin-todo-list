@@ -1,0 +1,67 @@
+/* Main section style */
+main{
+    background-color: var(--light-color);
+}
+
+.todo-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--default-spacing);
+    margin: var(--default-padding);
+}
+
+.todo-list > div {
+    display: grid;
+    /* grid-template-columns:minmax(2rem,15%) 3fr;
+    grid-template-rows:repeat(auto-fit, 1fr); */
+    align-items: center;
+    border-radius: var(--borders);
+    background-color:white;
+    border: solid 1px black;
+    padding: var(--default-padding);
+    max-width: 25rem;
+    flex: 1 1 auto;
+    
+}
+
+.todo-list > div h3{
+    grid-area:1/2/2/5;
+}
+
+.todo-list > div input[type="checkbox"]{
+    grid-area:1/1/2/2;
+    cursor: pointer; 
+    width: 30px;
+    height: 30px;
+}
+
+.todo-list > div p {
+    grid-area:2/1/3/5;
+}
+
+.todo-list > div .dueDate{
+    grid-area:3/2/4/5;
+}
+
+.todo-list > div .priority{
+    grid-area:3/1/4/2;
+}
+
+.removeTask {
+    grid-area:4/4/5/5;
+}
+
+.removeTask > button {
+    cursor: pointer; 
+    padding: calc(var(--default-padding)/1.5);
+    background-color: var(--strong-color);
+    border: none;
+    border-radius: var(--borders);
+    color: white;
+}
+
+.removeTask > button:hover{
+    background-color: var(--light-color);
+    color: black;
+}
