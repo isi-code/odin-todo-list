@@ -38,20 +38,20 @@ export class TodoListHandler {
 
     get allTasks() { return Object.entries(this.#todoList); }
 
-    #save(content = this.#listName){ localStorage.setItem(this.#listName, JSON.stringify(content)); }
+    #save(content = this.#todoList){ localStorage.setItem(this.#listName, JSON.stringify(content)); }
 
-    addTask(taskId, task) {
-        this.#todoList[taskId] = task;
+    addTask(taskId, task) { 
+        if (taskId in this.#todoList) this.#todoList[taskId] = task;
         this.#save();
     }
 
-    removeTask (taskId) {
-        delete this.#todoList[taskId];
+    removeTask (taskId) { 
+        if (taskId in this.#todoList) delete this.#todoList[taskId];
         this.#save();
     }
 
-    updateTaskStatus(taskId, status) {
-        this.#todoList[taskId].status = status;
+    updateTaskStatus(taskId, status) { 
+        if (taskId in this.#todoList) this.#todoList[taskId].status = status;
         this.#save();
     }
 }
