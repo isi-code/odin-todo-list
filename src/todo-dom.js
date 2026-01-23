@@ -42,21 +42,23 @@ export class TodoListDomFactory {
     const taskContainer = document.createElement("div");
     taskContainer.classList = "taskContainer";
 
+    const [id, {...taskInfo}] = task;
+
     for (const [key, { mainTag, inputType }] of Object.entries(this.#task)) {
       // Skip empty fields to keep the UI clean
-      if (task[key] !== "") {
+      if (taskInfo[key] !== "") {
         const htmlElement = document.createElement(mainTag);
         // Special handling for the checkbox/status input
         if (key === "status") {
           htmlElement.type = inputType;
           htmlElement.name = 'checkDone';
-          htmlElement.checked = task[key];
-          htmlElement.disabled = task[key];
-          htmlElement.dataset.taskId = task.id;
+          htmlElement.checked = taskInfo[key];
+          htmlElement.disabled = taskInfo[key];
+          htmlElement.dataset.taskId = id;
           taskContainer.append(htmlElement);
         }
         else {
-          htmlElement.textContent = task[key];
+          htmlElement.textContent = taskInfo[key];
           htmlElement.classList = key;
         }
         taskContainer.append(htmlElement);
@@ -64,7 +66,7 @@ export class TodoListDomFactory {
     }
 
     const form =  document.createElement("form");
-    form.dataset.taskId = task.id;
+    form.dataset.taskId = id;
     form.classList = "removeTask";
 
     const removeBtn =  document.createElement("button");
@@ -217,17 +219,17 @@ export class TodoListRender {
     }
 
     unfinishedTasks(tasks){
-        const unfinishedTasks = tasks.filter( task => {return task.status === false});
-        return this.todoList(unfinishedTasks);
+      const unfinishedTasks = tasks.filter( ([id, {...taskInfo}]) => {return taskInfo.status === false});
+      return this.todoList(unfinishedTasks);
     }
 
     todayTasks(tasks){
       const currentDateTime = new Date();
 
-      const todayTasks = tasks.filter(task => {
-        const dueDate = parse(task.dueDate,'yyyy-MM-dd, p', currentDateTime);
+      const todayTasks = tasks.filter( ([id, {...taskInfo}]) => {
+        const dueDate = parse(taskInfo.dueDate,'yyyy-MM-dd, p', currentDateTime);
         const isTodayTask = isWithinInterval(dueDate, {start: startOfDay(currentDateTime), end: endOfDay(currentDateTime)});
-        return isTodayTask === true && task.status === false
+        return isTodayTask === true && taskInfo.status === false
       });
 
       return this.todoList(todayTasks);
@@ -236,17 +238,17 @@ export class TodoListRender {
     upcomingTasks(tasks){
       const currentDateTime = new Date();
 
-      const upcomingTasks = tasks.filter(task => {
-        const dueDate = parse(task.dueDate,'yyyy-MM-dd, p', currentDateTime);
+      const upcomingTasks = tasks.filter( ([id, {...taskInfo}]) => {
+        const dueDate = parse(taskInfo.dueDate,'yyyy-MM-dd, p', currentDateTime);
         const hoursDifference = differenceInHours(dueDate, currentDateTime);
-        return hoursDifference >= 24 && task.status === false
+        return hoursDifference >= 24 && taskInfo.status === false
       });
 
       return this.todoList(upcomingTasks);
     }
 
     completedTasks(tasks){
-        const finishedTasks = tasks.filter( task => {return task.status === true});
+        const finishedTasks = tasks.filter( ([id, {...taskInfo}]) => {return taskInfo.status === true});
         return this.todoList(finishedTasks);
     }
 
