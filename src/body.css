@@ -7,7 +7,7 @@ main{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: var(--default-spacing);
+    gap: var(--default-padding);
     margin: var(--default-padding);
 }
 
@@ -20,9 +20,7 @@ main{
     background-color:white;
     border: solid 1px black;
     padding: var(--default-padding);
-    max-width: 25rem;
-    flex: 1 1 auto;
-    
+    max-width: clamp(max(25%,270px), 15%, calc(350px + 5vw));
 }
 
 .todo-list > div h3{
