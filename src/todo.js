@@ -28,12 +28,14 @@ export class TodoListHandler {
     }
 
     #initTodoList(content){
-        let todoList = JSON.parse(localStorage.getItem(this.#listName));
-        if (todoList === null) {
-            this.#save(content);
-            return JSON.parse(localStorage.getItem(this.#listName));
+        const todoList = localStorage.getItem(this.#listName);
+        
+        if (todoList === null) { 
+            this.#save(content); 
+            return content; 
         }
-        return todoList
+        
+        return JSON.parse(todoList);
     }
 
     get allTasks() { return Object.entries(this.#todoList); }
