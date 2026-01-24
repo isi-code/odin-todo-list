@@ -42,7 +42,7 @@ export class TodoListDomFactory {
     const taskContainer = document.createElement("div");
     taskContainer.classList = "taskContainer";
 
-    const [id, {...taskInfo}] = task;
+    const [id, taskInfo] = task;
 
     for (const [key, { mainTag, inputType }] of Object.entries(this.#task)) {
       // Skip empty fields to keep the UI clean
@@ -117,6 +117,18 @@ export class TodoListDomFactory {
     const main = document.createElement("main");
     if (content) main.append(content);
     return main; 
+  }
+
+  createProjectList(projectName){
+    const todoListSection = document.createElement("section");
+    todoListSection.classList = "todo-list";
+
+    for (let task of projectName) {
+      const taskEl = this.createProjectCard(task);
+      todoListSection.append(taskEl);
+    }
+
+    return todoListSection
   }
 
   createMenu(key, iconName, name) {
@@ -219,14 +231,14 @@ export class TodoListRender {
     }
 
     unfinishedTasks(tasks){
-      const unfinishedTasks = tasks.filter( ([id, {...taskInfo}]) => {return taskInfo.status === false});
+      const unfinishedTasks = tasks.filter( ([_, taskInfo]) => {return taskInfo.status === false});
       return this.todoList(unfinishedTasks);
     }
 
     todayTasks(tasks){
       const currentDateTime = new Date();
 
-      const todayTasks = tasks.filter( ([id, {...taskInfo}]) => {
+      const todayTasks = tasks.filter( ([_, taskInfo]) => {
         const dueDate = parse(taskInfo.dueDate,'yyyy-MM-dd, p', currentDateTime);
         const isTodayTask = isWithinInterval(dueDate, {start: startOfDay(currentDateTime), end: endOfDay(currentDateTime)});
         return isTodayTask === true && taskInfo.status === false
@@ -238,7 +250,7 @@ export class TodoListRender {
     upcomingTasks(tasks){
       const currentDateTime = new Date();
 
-      const upcomingTasks = tasks.filter( ([id, {...taskInfo}]) => {
+      const upcomingTasks = tasks.filter( ([_, taskInfo]) => {
         const dueDate = parse(taskInfo.dueDate,'yyyy-MM-dd, p', currentDateTime);
         const hoursDifference = differenceInHours(dueDate, currentDateTime);
         return hoursDifference >= 24 && taskInfo.status === false
@@ -248,7 +260,7 @@ export class TodoListRender {
     }
 
     completedTasks(tasks){
-        const finishedTasks = tasks.filter( ([id, {...taskInfo}]) => {return taskInfo.status === true});
+        const finishedTasks = tasks.filter( ([_, taskInfo]) => {return taskInfo.status === true});
         return this.todoList(finishedTasks);
     }
 
