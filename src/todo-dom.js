@@ -78,9 +78,26 @@ export class TodoListDomFactory {
     return taskContainer;
   }
 
+  createProjectCard(projectName, count) {
+    const projectCard = document.createElement("div");
+    projectCard.classList = `${projectName.toLowerCase()}Tasks`;
+
+    const icon = document.createElement("i");
+    icon.setAttribute("data-feather", "folder");
+    
+    const title = document.createElement("h3");
+    title.textContent = projectName;
+
+    const taskAmount = document.createElement("div");
+    taskAmount.textContent = `Task Number: ${count}`;
+
+    projectCard.append(icon, title, taskAmount);
+    return projectCard
+  }
+
   createTodoList(tasks) {
     const todoListSection = document.createElement("section");
-    todoListSection.classList = "todo-list";
+    todoListSection.classList = "list";
 
     for (let task of tasks) {
       const taskEl = this.createTaskCard(task);
@@ -119,16 +136,16 @@ export class TodoListDomFactory {
     return main; 
   }
 
-  createProjectList(projectName){
-    const todoListSection = document.createElement("section");
-    todoListSection.classList = "todo-list";
+  createProjectList(projects){
+    const projectListSection = document.createElement("section");
+    projectListSection.classList = "list";
 
-    for (let task of projectName) {
-      const taskEl = this.createProjectCard(task);
-      todoListSection.append(taskEl);
+    for (let project of Object.keys(projects)) {
+      const projectEl = this.createProjectCard(project, projects[project]);
+      projectListSection.append(projectEl);
     }
 
-    return todoListSection
+    return projectListSection
   }
 
   createMenu(key, iconName, name) {
@@ -269,6 +286,24 @@ export class TodoListRender {
         this.render(form);
         feather.replace();
         return form
+    }
+
+    projectNameList(tasks){
+      const projectCount = tasks.reduce((acc, [_, { project }]) => {
+        if (project !== "") acc[project] = (acc[project] || 0) + 1;
+        return acc;
+      }, {});
+
+      const projectList = this.domBuilder.createProjectList(projectCount);
+
+      let main = this.container.querySelector("main");
+      if(!main) main = this.domBuilder.createMainContainer();
+
+      main.append(projectList);
+      this.render(main);
+      feather.replace();
+      
+      return projectList
     }
 
     removeMainContent() {

@@ -3,7 +3,7 @@ main{
     background-color: var(--light-color);
 }
 
-.todo-list {
+.list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -11,7 +11,7 @@ main{
     margin: var(--default-padding);
 }
 
-.todo-list > div {
+.list > div {
     display: grid;
     /* grid-template-columns:minmax(2rem,15%) 3fr;
     grid-template-rows:repeat(auto-fit, 1fr); */
@@ -23,26 +23,26 @@ main{
     max-width: clamp(max(25%,270px), 15%, calc(350px + 5vw));
 }
 
-.todo-list > div h3{
+.list > div h3{
     grid-area:1/2/2/5;
 }
 
-.todo-list > div input[type="checkbox"]{
+.list > div input[type="checkbox"]{
     grid-area:1/1/2/2;
     cursor: pointer; 
     width: 30px;
     height: 30px;
 }
 
-.todo-list > div p {
+.list > div p {
     grid-area:2/1/3/5;
 }
 
-.todo-list > div .dueDate{
+.list > div .dueDate{
     grid-area:3/2/4/5;
 }
 
-.todo-list > div .priority{
+.list > div .priority{
     grid-area:3/1/4/2;
 }
 

@@ -67,6 +67,10 @@ class TodoListApp {
         this.taskEvents(todoList);
     }
 
+    projects(){
+        this.todoListRender.projectNameList(this.todoList.allTasks);
+    }
+
     taskEvents(todoList){
         this.markTaskDone(todoList);
         this.taskRemoveBtns(todoList);
