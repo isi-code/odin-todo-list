@@ -1,6 +1,8 @@
 /* Main section style */
 main{
     background-color: var(--light-color);
+    flex: 1;
+    min-height: 100vh;
 }
 
 .todo-list {
@@ -8,7 +10,8 @@ main{
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--default-padding);
-    margin: var(--default-padding);
+    margin: calc(var(--default-padding) * 2.3);
+    /* padding: 2rem; */
 }
 
 .todo-list > div {

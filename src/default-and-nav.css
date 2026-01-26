@@ -14,17 +14,18 @@
 }
 
 #content{
-    display: grid;
-    grid-template-columns:min-content 1fr;
+    display: flex;
+    flex-direction: row;
+    /* display: grid;
+    grid-template-columns:min-content 1fr; */
 }
 
 /* Header and Nav styles */
 header {
-    display: flex;
-    flex-direction: column;
+    display: none;
     background-color: aliceblue;
-    width:max-content;
-    grid-column: 1/2;
+    min-width:10rem;
+    /* grid-column: 1/2; */
     min-height: 100vh;
 }
 
@@ -64,4 +65,11 @@ header nav ul li {
 
 header nav ul li:hover, nav ul li.active{
     background-color: white;
+}
+
+@media screen and (min-width:30rem) {
+    header{
+        display: flex;
+        flex-direction: column;
+    }
 }
