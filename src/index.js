@@ -1,5 +1,5 @@
-import "./default-and-nav.css";
-import "./body.css";
+import "./css/default-and-nav.css";
+import "./css/body.css";
 import { Task, TodoListHandler } from "./todo.js";
 import { TodoListDomFactory, TodoListRender } from "./todo-dom.js"
 import todoList from './todo-list.json'

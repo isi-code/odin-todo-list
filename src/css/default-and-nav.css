@@ -3,6 +3,12 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    font-family: rubik ;
+}
+
+@font-face {
+    font-family: rubik;
+    src: url(../assets/Rubik-Regular.ttf);
 }
 
 :root{
