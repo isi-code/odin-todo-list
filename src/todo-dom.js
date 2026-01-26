@@ -119,6 +119,19 @@ export class TodoListDomFactory {
     return main; 
   }
 
+  createMobileMenu(){   
+    const btnsContainer = document.createElement("div");
+    btnsContainer.classList = "mobileMenu";
+    const xBtn = document.createElement("i");
+    xBtn.setAttribute("data-feather", "x");
+    const menu = document.createElement("i");
+    menu.setAttribute("data-feather", "menu");
+    menu.classList = "active";
+    btnsContainer.append(menu,xBtn);
+
+    return btnsContainer
+  }
+
   createMenu(key, iconName, name) {
     const li = document.createElement("li");
     li.setAttribute("data-menu", key);
@@ -134,7 +147,7 @@ export class TodoListDomFactory {
 
   createAddTaskForm() {
     const dialog = document.createElement("dialog");
-    const xBtn = document.createElement("div");
+    const xBtn = document.createElement("i");
     xBtn.classList = "xBtn";
     xBtn.setAttribute("data-feather", 'x');
     const form = document.createElement("form");
@@ -201,7 +214,11 @@ export class TodoListRender {
 
     navBar(){
         const header = this.domBuilder.createNavBar();
+        const mobileMenu = this.domBuilder.createMobileMenu();
         this.render(header);
+
+        this.render(mobileMenu);
+
         feather.replace();
         const nav = header.querySelector("nav");
         return nav

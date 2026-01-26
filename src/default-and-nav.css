@@ -27,7 +27,27 @@ header {
     min-width:10rem;
     /* grid-column: 1/2; */
     min-height: 100vh;
+    position: relative;
 }
+
+.mobileMenu {
+    display: block;
+    position: fixed;
+    right: 10px;
+    z-index: 10;
+    
+}
+
+.mobileMenu svg{
+    display: none;
+    color: black;
+    width: 2.5rem;
+    height: auto;
+    cursor: pointer;
+}
+
+.mobileMenu svg.active {display: block;}
+
 
 .logo-wrapper {
     display: flex;
@@ -72,4 +92,9 @@ header nav ul li:hover, nav ul li.active{
         display: flex;
         flex-direction: column;
     }
+
+    .mobileMenu{
+        display: none;
+    }
+    
 }
