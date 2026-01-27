@@ -70,7 +70,19 @@ class TodoListApp {
     }
 
     projects(){
-        this.todoListRender.projectNameList(this.todoList.allTasks);
+        const projects = this.todoListRender.projectNameList(this.todoList.allTasks);
+        const projectCategory = projects.querySelectorAll(".project");
+        this.tasksByProject(projectCategory);
+    }
+
+    tasksByProject(projects){
+        for (let proj of projects){
+            proj.addEventListener("click", (e) => {
+                const taskProject = e.target.dataset.project;
+                this.todoListRender.removeMainContent();
+                this.todoListRender.projectTasks(this.todoList.allTasks, taskProject);
+            });
+        }
     }
 
     taskEvents(todoList){

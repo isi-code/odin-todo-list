@@ -80,7 +80,8 @@ export class TodoListDomFactory {
 
   createProjectCard(projectName, count) {
     const projectCard = document.createElement("div");
-    projectCard.classList = `${projectName.toLowerCase()}Tasks`;
+    projectCard.dataset.project = projectName;
+    projectCard.classList = 'project';
 
     const icon = document.createElement("i");
     icon.setAttribute("data-feather", "folder");
@@ -305,6 +306,11 @@ export class TodoListRender {
       feather.replace();
       
       return projectList
+    }
+
+    projectTasks(tasks, project){
+        const projectTasks = tasks.filter( ([_, taskInfo]) => {return taskInfo.project === project});
+        return this.todoList(projectTasks);
     }
 
     removeMainContent() {
