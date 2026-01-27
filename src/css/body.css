@@ -46,11 +46,11 @@ main{
     grid-area:3/1/4/2;
 }
 
-.removeTask {
+.updateTask {
     grid-area:4/4/5/5;
 }
 
-.removeTask > button {
+.updateTask > button {
     cursor: pointer; 
     padding: calc(var(--default-padding)/1.5);
     background-color: var(--strong-color);
@@ -59,7 +59,7 @@ main{
     color: white;
 }
 
-.removeTask > button:hover{
+.updateTask > button:hover{
     background-color: var(--light-color);
     color: black;
 }

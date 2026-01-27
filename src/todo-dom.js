@@ -67,12 +67,18 @@ export class TodoListDomFactory {
 
     const form =  document.createElement("form");
     form.dataset.taskId = id;
-    form.classList = "removeTask";
+    form.classList = "updateTask";
+
+    const editBtn =  document.createElement("button");
+    editBtn.dataset.taskId = id;
+    editBtn.classList = "editBtn"
+    editBtn.textContent = "Edit Task";
 
     const removeBtn =  document.createElement("button");
+    removeBtn.classList = "removeBtn"
     removeBtn.textContent = "Remove Task";
 
-    form.append(removeBtn);
+    form.append(editBtn, removeBtn);
 
     taskContainer.append(form);
     return taskContainer;
