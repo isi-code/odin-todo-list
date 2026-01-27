@@ -63,3 +63,62 @@ main{
     background-color: var(--light-color);
     color: black;
 }
+
+dialog {
+    display: block;
+    margin: auto;
+    padding: calc(var(--default-padding) + 0.5rem);
+    position: relative;
+}
+
+dialog form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: var(--default-spacing);
+
+}
+
+dialog textarea{
+    height: 7rem;
+    resize: none;
+}
+
+dialog form, dialog label {
+    font-size: 1.2rem;
+}
+
+dialog input, dialog textarea, dialog select {
+    font-size: 1.1rem;
+    border-radius:0.5rem;
+    background-color: rgb(221, 218, 218);
+    padding: 0.4rem;
+    border: none;
+}
+
+dialog svg{
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    margin: 10px;
+    width: 2rem;
+    height: auto;
+    cursor: pointer;
+}
+
+dialog button {
+    cursor: pointer; 
+    padding: calc(var(--default-padding)/1.5);
+    background-color: var(--strong-color);
+    border: none;
+    border-radius: var(--borders);
+    color: white;
+    width: max-content;
+    padding: var(--default-padding);
+    margin: auto;
+}
+
+dialog button:hover {
+    background-color: var(--light-color);
+    color: black;
+}

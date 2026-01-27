@@ -167,6 +167,7 @@ export class TodoListDomFactory {
     xBtn.classList = "xBtn";
     xBtn.setAttribute("data-feather", 'x');
     const form = document.createElement("form");
+    form.method = "dialog";
 
     for (const [key, { label, inputType }] of Object.entries(this.#task)) {
         //This method return label and input

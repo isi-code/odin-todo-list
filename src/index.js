@@ -40,10 +40,12 @@ class TodoListApp {
 
     newTask(){
         const dialog = this.todoListRender.addTaskForm();
+        dialog.showModal();
         const form = dialog.querySelector("form");
         const xBtn = dialog.querySelector(".xBtn");
         form.addEventListener("submit", (e) => {
             e.preventDefault();
+            
             const inputs = Array.from(form.elements).filter(elem => elem.name);
             const values = {};
 
