@@ -50,11 +50,15 @@ class TodoListApp {
             const values = {};
 
             for(let i = 0; i < inputs.length; i++) values[inputs[i].name] = inputs[i].value;
-
-            const newTask = new Task(values.title, values.description, values.dueDate, values.priority, values.project);
-            this.todoList.addTask(newTask);
-            dialog.remove();
             
+            const taskId = crypto.randomUUID();
+            const newTask = new Task(values.title, values.description, values.dueDate, values.priority, values.project);
+            this.todoList.addTask(taskId, newTask);
+
+            dialog.remove();
+
+            this.todoListRender.removeMainContent();
+            this[this.currentPage](this.todoList.allTasks);
         });
         xBtn.addEventListener("click", () => { dialog.remove(); });
     }
@@ -80,7 +84,8 @@ class TodoListApp {
             proj.addEventListener("click", (e) => {
                 const taskProject = e.target.dataset.project;
                 this.todoListRender.removeMainContent();
-                this.todoListRender.projectTasks(this.todoList.allTasks, taskProject);
+                const filteredTasks = this.todoListRender.projectTasks(this.todoList.allTasks, taskProject);
+                this.taskEvents(filteredTasks);
             });
         }
     }
