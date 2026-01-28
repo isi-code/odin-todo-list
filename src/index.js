@@ -91,30 +91,25 @@ class TodoListApp {
     }
 
     taskEvents(todoList){
-        this.markTaskDone(todoList);
-        this.taskRemoveBtns(todoList);
+        const tasks = todoList.querySelectorAll(".taskContainer");
+        
+        tasks.forEach(task => {
+            task.addEventListener("click", (e) => {
+                const el = e.target;
+                if(el.className === "removeBtn") this.taskRemoveBtn(el.dataset.taskId);
+                if(el.name === "checkDone") this.markTaskDone(el.dataset.taskId);
+            })
+        });
     }
 
-    markTaskDone(todoList){
-        const checkboxes = todoList.querySelectorAll("[name='checkDone']");
-        for (let checkbox of checkboxes) {
-            checkbox.addEventListener("change", () => {
-                this.todoList.updateTaskStatus(checkbox.dataset.taskId, true);
-                this.refreshUI();
-            });
-        }        
+    markTaskDone(taskId){
+        this.todoList.updateTaskStatus(taskId, true);
+        this.refreshUI();    
     }
 
-    taskRemoveBtns(todoList) {
-        const removeForms = todoList.querySelectorAll(".removeTask");
-        for (let form of removeForms){
-            form.addEventListener("submit", e => {
-                e.preventDefault();
-                const taskId = form.dataset.taskId;
-                this.todoList.removeTask(taskId);
-                this.refreshUI();
-            });
-        }
+    taskRemoveBtn(taskId) {
+        this.todoList.removeTask(taskId);
+        this.refreshUI();
     }
 
     navBar(){
