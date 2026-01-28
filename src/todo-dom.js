@@ -202,7 +202,8 @@ export class TodoListDomFactory {
   }
 
   createEditTaskForm() {   
-    const editFormSection = document.createElement("section"); 
+    const editFormSection = document.createElement("section");
+    editFormSection.classList = "editForm";
     const form = this.createTaskForm("Edit Form");
 
     //this.addTaskValues(form);

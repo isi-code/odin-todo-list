@@ -80,27 +80,38 @@ main{
 dialog {
     display: block;
     margin: auto;
-    padding: calc(var(--default-padding) + 0.5rem);
+    padding: var(--default-padding);
+    border-radius: 1rem;
     position: relative;
 }
 
-dialog form {
+.editForm{
+    display: block;
+    margin: 4rem auto;
+    width: 75%;
+    max-width: 50rem;
+}
+
+form {
     display: flex;
     justify-content: center;
     flex-direction: column;
     row-gap: var(--default-spacing);
+    background-color: white;
+    padding: var(--default-padding);
+    border-radius: 1rem;
 }
 
-dialog textarea{
+form textarea{
     height: 7rem;
     resize: none;
 }
 
-dialog form, dialog label {
+form, dialog label {
     font-size: 1.2rem;
 }
 
-dialog input, dialog textarea, dialog select {
+form input, form textarea, form select {
     font-size: 1.1rem;
     border-radius:0.5rem;
     background-color: rgb(221, 218, 218);
@@ -118,7 +129,7 @@ dialog svg{
     cursor: pointer;
 }
 
-dialog button {
+form button {
     cursor: pointer; 
     padding: calc(var(--default-padding)/1.5);
     background-color: var(--strong-color);
@@ -130,7 +141,7 @@ dialog button {
     margin: auto;
 }
 
-dialog button:hover {
+form button:hover {
     background-color: var(--light-color);
     color: black;
 }
