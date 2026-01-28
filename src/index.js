@@ -56,9 +56,7 @@ class TodoListApp {
             this.todoList.addTask(taskId, newTask);
 
             dialog.remove();
-
-            this.todoListRender.removeMainContent();
-            this[this.currentPage](this.todoList.allTasks);
+            this.refreshUI();
         });
         xBtn.addEventListener("click", () => { dialog.remove(); });
     }
@@ -82,7 +80,7 @@ class TodoListApp {
     tasksByProject(projects){
         for (let proj of projects){
             proj.addEventListener("click", (e) => {
-                const taskProject = e.target.dataset.project || e.target.parentElement.dataset.project ;
+                const taskProject = e.target.closest(".project").dataset.project;
                 if(taskProject){ 
                     this.todoListRender.removeMainContent();
                     const filteredTasks = this.todoListRender.projectTasks(this.todoList.allTasks, taskProject);
@@ -102,8 +100,7 @@ class TodoListApp {
         for (let checkbox of checkboxes) {
             checkbox.addEventListener("change", () => {
                 this.todoList.updateTaskStatus(checkbox.dataset.taskId, true);
-                this.todoListRender.removeMainContent();
-                this[this.currentPage](this.todoList.allTasks);
+                this.refreshUI();
             });
         }        
     }
@@ -115,8 +112,7 @@ class TodoListApp {
                 e.preventDefault();
                 const taskId = form.dataset.taskId;
                 this.todoList.removeTask(taskId);
-                this.todoListRender.removeMainContent();
-                this[this.currentPage](this.todoList.allTasks);
+                this.refreshUI();
             });
         }
     }
@@ -149,6 +145,11 @@ class TodoListApp {
         li.classList.remove("active");
         if(li.dataset.menu === this.currentPage) li.classList.add("active");
         }
+    }
+
+    refreshUI() {
+        this.todoListRender.removeMainContent();
+        this[this.currentPage](this.todoList.allTasks);
     }
 }
 
