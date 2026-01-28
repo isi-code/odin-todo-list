@@ -16,12 +16,14 @@
     --default-spacing:0.5rem;
     --borders:15px;
     --strong-color:rgb(91, 145, 224);
-    --light-color:rgb(207, 227, 247);;
+    --light-color:rgb(207, 227, 247);
+    --warning-color:rgb(194, 55, 55);
+    --warning-light-color:rgb(214, 71, 71);
 }
 
 #content{
-    display: grid;
-    grid-template-columns:min-content 1fr;
+    display: flex;
+    flex-direction: row;
 }
 
 /* Header and Nav styles */
@@ -29,8 +31,7 @@ header {
     display: flex;
     flex-direction: column;
     background-color: aliceblue;
-    width:max-content;
-    grid-column: 1/2;
+    min-width:10rem;
     min-height: 100vh;
 }
 
