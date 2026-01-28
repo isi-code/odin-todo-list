@@ -96,8 +96,9 @@ class TodoListApp {
         tasks.forEach(task => {
             task.addEventListener("click", (e) => {
                 const el = e.target;
-                if(el.className === "removeBtn") this.taskRemoveBtn(el.dataset.taskId);
+                if(el.className === "removeBtn") this.removeTaskBtn(el.dataset.taskId);
                 if(el.name === "checkDone") this.markTaskDone(el.dataset.taskId);
+                if(el.className === "editBtn") this.editTaskBtn(el.dataset.taskId);
             })
         });
     }
@@ -107,9 +108,14 @@ class TodoListApp {
         this.refreshUI();    
     }
 
-    taskRemoveBtn(taskId) {
+    removeTaskBtn(taskId) {
         this.todoList.removeTask(taskId);
         this.refreshUI();
+    }
+
+    editTaskBtn(taskId){
+        this.todoListRender.removeMainContent();
+        const form = this.todoListRender.editTaskForm();
     }
 
     navBar(){
