@@ -48,7 +48,7 @@ export class TodoListStorage {
     }
 
     editTask(taskId, field, value){
-        if (field === "dueDate") this.#todoList[taskId][field] = formatDate(value);
+        if (field === "dueDate") this.#todoList[taskId][field] = this.formatDate(value);
         else this.#todoList[taskId][field] = value;
         this.#save();
     }

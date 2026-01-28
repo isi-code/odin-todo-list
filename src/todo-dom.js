@@ -1,5 +1,5 @@
 import feather from 'feather-icons';
-import {parse, differenceInHours, startOfDay, endOfDay, isWithinInterval} from 'date-fns';
+import {parse, format, differenceInHours, startOfDay, endOfDay, isWithinInterval} from 'date-fns';
 
 export class TodoListDomFactory {
   #navigation;
@@ -205,9 +205,24 @@ export class TodoListDomFactory {
     editFormSection.classList = "editForm";
     
     const form = this.createTaskForm("Edit Task");
-    //editFormSection.append(this.addTaskValues(form, task));
+    editFormSection.append(this.addTaskValues(form, task));
 
     return editFormSection
+  }
+
+  addTaskValues(form, task){
+    for (let input of form.elements){
+      const value = task[input.name];
+      if (value){
+        if(input.name === "dueDate"){
+          const parsedDate = parse(value, "yyyy-MM-dd, hh:mm a", new Date());
+          input.value = format(parsedDate, "yyyy-MM-dd'T'HH:mm");
+        } else{
+          input.value = value;
+        }
+      } 
+    }     
+    return form
   }
 
   createInputs(key, label, inputType){
