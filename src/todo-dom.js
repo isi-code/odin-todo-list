@@ -256,6 +256,14 @@ export class TodoListRender {
 
     render(element){ this.container.append(element); }
 
+    renderToMain(element){ 
+        let main = this.container.querySelector("main");
+        if(!main) main = this.domBuilder.createMainContainer();
+
+        main.append(element);
+        this.render(main);
+     }
+
     navBar(){
         const header = this.domBuilder.createNavBar();
         this.render(header);
@@ -266,12 +274,7 @@ export class TodoListRender {
 
     todoList(tasks){
         const todoList = this.domBuilder.createTodoList(tasks);
-        
-        let main = this.container.querySelector("main");
-        if(!main) main = this.domBuilder.createMainContainer();
-
-        main.append(todoList);
-        this.render(main);
+        this.renderToMain(todoList);
         return todoList
     }
 
@@ -318,7 +321,7 @@ export class TodoListRender {
 
     editTaskForm(){
       const form = this.domBuilder.createEditTaskForm();
-      this.render(form);
+      this.renderToMain(form);
       return form
     }
 
@@ -329,12 +332,7 @@ export class TodoListRender {
       }, {});
 
       const projectList = this.domBuilder.createProjectList(projectCount);
-
-      let main = this.container.querySelector("main");
-      if(!main) main = this.domBuilder.createMainContainer();
-
-      main.append(projectList);
-      this.render(main);
+      this.renderToMain(projectList);
       feather.replace();
       
       return projectList
