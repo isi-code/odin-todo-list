@@ -82,10 +82,12 @@ class TodoListApp {
     tasksByProject(projects){
         for (let proj of projects){
             proj.addEventListener("click", (e) => {
-                const taskProject = e.target.dataset.project;
-                this.todoListRender.removeMainContent();
-                const filteredTasks = this.todoListRender.projectTasks(this.todoList.allTasks, taskProject);
-                this.taskEvents(filteredTasks);
+                const taskProject = e.target.dataset.project || e.target.parentElement.dataset.project ;
+                if(taskProject){ 
+                    this.todoListRender.removeMainContent();
+                    const filteredTasks = this.todoListRender.projectTasks(this.todoList.allTasks, taskProject);
+                    this.taskEvents(filteredTasks);
+                }
             });
         }
     }
@@ -113,7 +115,6 @@ class TodoListApp {
                 e.preventDefault();
                 const taskId = form.dataset.taskId;
                 this.todoList.removeTask(taskId);
-                //console.log(typeof taskId, taskId);
                 this.todoListRender.removeMainContent();
                 this[this.currentPage](this.todoList.allTasks);
             });
