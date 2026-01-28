@@ -36,12 +36,19 @@ export class TodoListHandler {
         return JSON.parse(todoList);
     }
 
+    getSingleTask(taskId) { return this.#todoList[taskId] }
+
     get allTasks() { return Object.entries(this.#todoList); }
 
     #save(content = this.#todoList){ localStorage.setItem(this.#listName, JSON.stringify(content)); }
 
     addTask(taskId, task) { 
         this.#todoList[taskId] = task;
+        this.#save();
+    }
+
+    editTask(taskId, field, value){
+        this.#todoList[taskId][field] = value;
         this.#save();
     }
 
