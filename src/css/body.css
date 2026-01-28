@@ -1,6 +1,8 @@
 /* Main section style */
 main{
     background-color: var(--light-color);
+    flex: 1;
+    min-height: 100vh;
 }
 
 .list {
@@ -8,13 +10,11 @@ main{
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--default-padding);
-    margin: var(--default-padding);
+    margin: calc(var(--default-padding) * 2.3);
 }
 
 .list > div {
     display: grid;
-    /* grid-template-columns:minmax(2rem,15%) 3fr;
-    grid-template-rows:repeat(auto-fit, 1fr); */
     align-items: center;
     border-radius: var(--borders);
     background-color:white;
@@ -23,45 +23,58 @@ main{
     max-width: clamp(max(25%,270px), 15%, calc(350px + 5vw));
 }
 
-.list > div h3{
+.list .taskContainer h3{
     grid-area:1/2/2/5;
 }
 
-.list > div input[type="checkbox"]{
+.list .taskContainer input[type="checkbox"]{
     grid-area:1/1/2/2;
     cursor: pointer; 
     width: 30px;
     height: 30px;
 }
 
-.list > div p {
+.list .taskContainer p {
     grid-area:2/1/3/5;
 }
 
-.list > div .dueDate{
+.list .taskContainer .dueDate{
     grid-area:3/2/4/5;
 }
 
-.list > div .priority{
+.list .taskContainer .priority{
     grid-area:3/1/4/2;
 }
 
-.updateTask {
-    grid-area:4/4/5/5;
+form.updateTask {
+    display: flex;
+    gap: var(--default-spacing);
+    grid-area:5/1/5/6;
 }
 
 .updateTask > button {
     cursor: pointer; 
-    padding: calc(var(--default-padding)/1.5);
-    background-color: var(--strong-color);
+    padding: calc(var(--default-padding) / 1.5);
     border: none;
     border-radius: var(--borders);
     color: white;
 }
 
-.updateTask > button:hover{
+.updateTask .editBtn{
+    background-color: var(--strong-color);
+}
+
+.updateTask .editBtn:hover{
     background-color: var(--light-color);
     color: black;
+}
+
+.updateTask .removeBtn{
+    background-color: var(--warning-color);
+}
+
+.updateTask .removeBtn:hover{
+    background-color: var(--warning-light-color);
 }
 
 dialog {
@@ -76,7 +89,6 @@ dialog form {
     justify-content: center;
     flex-direction: column;
     row-gap: var(--default-spacing);
-
 }
 
 dialog textarea{
@@ -121,4 +133,10 @@ dialog button {
 dialog button:hover {
     background-color: var(--light-color);
     color: black;
+}
+
+.list .project {
+    display: flex; 
+    cursor: pointer;
+    column-gap: var(--default-spacing);
 }
