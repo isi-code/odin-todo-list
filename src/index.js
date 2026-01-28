@@ -1,6 +1,6 @@
 import "./css/default-and-nav.css";
 import "./css/body.css";
-import { Task, TodoListHandler } from "./todo.js";
+import { Task, TodoListStorage } from "./todo.js";
 import { TodoListDomFactory, TodoListRender } from "./todo-dom.js"
 import todoList from './todo-list.json'
 
@@ -15,7 +15,7 @@ class TodoListApp {
      * @param {string} todoListContent This is an optional parameter to add content when creating the todo list for the first time.
      */
     constructor(container, todoListContent = '{}'){
-        this.todoList = new TodoListHandler(todoListContent);
+        this.todoList = new TodoListStorage(todoListContent);
         this.domBuilder = new TodoListDomFactory();
         this.todoListRender = new TodoListRender(container, this.domBuilder);
         this.currentPage = null;
@@ -118,6 +118,13 @@ class TodoListApp {
         const form = this.todoListRender.editTaskForm(this.todoList.getSingleTask(taskId));
         form.addEventListener("submit", (e) => {
             e.preventDefault();
+
+            const inputs = Array.from(e.target.elements);
+            inputs.forEach((input)=>{
+                const field = input.name;
+                const value = input.value;
+                this.todoList.editTask(taskId, field, value);
+            });
 
             this.refreshUI();            
         })
