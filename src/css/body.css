@@ -86,6 +86,15 @@ main{
     color: white;
 }
 
+.updateTask .detailsBtn{
+    background-color: black;
+}
+
+.updateTask .detailsBtn:hover{
+    background-color: lightslategray;
+}
+
+
 .updateTask .editBtn{
     background-color: var(--strong-color);
 }

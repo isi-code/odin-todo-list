@@ -96,9 +96,10 @@ class TodoListApp {
         tasks.forEach(task => {
             task.addEventListener("click", (e) => {
                 const el = e.target;
-                if(el.className === "removeBtn") this.removeTaskBtn(el.dataset.taskId);
-                if(el.name === "checkDone") this.markTaskDone(el.dataset.taskId);
-                if(el.className === "editBtn") this.editTaskBtn(el.dataset.taskId);
+                if (el.className === "detailsBtn") console.log("It works");
+                else if(el.className === "removeBtn") this.removeTaskBtn(el.dataset.taskId);
+                else if(el.name === "checkDone") this.markTaskDone(el.dataset.taskId);
+                else if(el.className === "editBtn") this.editTaskBtn(el.dataset.taskId);
             })
         });
     }
