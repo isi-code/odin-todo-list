@@ -115,7 +115,12 @@ class TodoListApp {
 
     editTaskBtn(taskId){
         this.todoListRender.removeMainContent();
-        const form = this.todoListRender.editTaskForm();
+        const form = this.todoListRender.editTaskForm(this.todoList.getSingleTask(taskId));
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            this.refreshUI();            
+        })
     }
 
     navBar(){

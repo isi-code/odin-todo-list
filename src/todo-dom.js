@@ -170,7 +170,6 @@ export class TodoListDomFactory {
 
   createTaskForm(btnText = "Add Task", ){
     const form = document.createElement("form");
-    form.method = "dialog";
 
     for (const [key, { label, inputType }] of Object.entries(this.#task)) {
         //This method return label and input
@@ -201,14 +200,13 @@ export class TodoListDomFactory {
     return dialog
   }
 
-  createEditTaskForm() {   
+  createEditTaskForm(task) {   
     const editFormSection = document.createElement("section");
     editFormSection.classList = "editForm";
-    const form = this.createTaskForm("Edit Form");
+    
+    const form = this.createTaskForm("Edit Task");
+    //editFormSection.append(this.addTaskValues(form, task));
 
-    //this.addTaskValues(form);
-
-    editFormSection.append(form);
     return editFormSection
   }
 
@@ -320,8 +318,8 @@ export class TodoListRender {
         return form
     }
 
-    editTaskForm(){
-      const form = this.domBuilder.createEditTaskForm();
+    editTaskForm(task){
+      const form = this.domBuilder.createEditTaskForm(task);
       this.renderToMain(form);
       return form
     }
