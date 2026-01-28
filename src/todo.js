@@ -16,7 +16,7 @@ export class Task {
     }
 }
 
-export class TodoListHandler {
+export class TodoListStorage {
     #listName;
     #todoList;
 
@@ -48,7 +48,8 @@ export class TodoListHandler {
     }
 
     editTask(taskId, field, value){
-        this.#todoList[taskId][field] = value;
+        if (field === "dueDate") this.#todoList[taskId][field] = formatDate(value);
+        else this.#todoList[taskId][field] = value;
         this.#save();
     }
 
@@ -60,5 +61,10 @@ export class TodoListHandler {
     updateTaskStatus(taskId, status) { 
         if (taskId in this.#todoList) this.#todoList[taskId].status = status;
         this.#save();
+    }
+
+    formatDate(date){
+        const dueDate = parseISO(date);
+        return format(dueDate,'yyyy-MM-dd, p');
     }
 }
