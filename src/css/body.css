@@ -46,7 +46,7 @@ main{
     grid-area:3/1/4/2;
 }
 
-form.updateTask {
+.updateTask {
     display: flex;
     gap: var(--default-spacing);
     grid-area:5/1/5/6;

@@ -65,9 +65,8 @@ export class TodoListDomFactory {
       }
     }
 
-    const form =  document.createElement("form");
-    form.dataset.taskId = id;
-    form.classList = "updateTask";
+    const btnContainer =  document.createElement("div");
+    btnContainer.classList = "updateTask";
 
     const editBtn =  document.createElement("button");
     editBtn.dataset.taskId = id;
@@ -75,12 +74,13 @@ export class TodoListDomFactory {
     editBtn.textContent = "Edit Task";
 
     const removeBtn =  document.createElement("button");
+    removeBtn.dataset.taskId = id;
     removeBtn.classList = "removeBtn"
     removeBtn.textContent = "Remove Task";
 
-    form.append(editBtn, removeBtn);
+    btnContainer.append(editBtn, removeBtn);
 
-    taskContainer.append(form);
+    taskContainer.append(btnContainer);
     return taskContainer;
   }
 
