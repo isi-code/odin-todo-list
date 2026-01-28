@@ -168,11 +168,7 @@ export class TodoListDomFactory {
     return li;
   }
 
-  createAddTaskForm() {
-    const dialog = document.createElement("dialog");
-    const xBtn = document.createElement("div");
-    xBtn.classList = "xBtn";
-    xBtn.setAttribute("data-feather", 'x');
+  createTaskForm(btnText = "Add Task", ){
     const form = document.createElement("form");
     form.method = "dialog";
 
@@ -183,12 +179,36 @@ export class TodoListDomFactory {
 
     const submitBtn = document.createElement("button");
     submitBtn.type = "submit";
-    submitBtn.textContent = "Add Task";
+    submitBtn.textContent = btnText;
 
     form.append(submitBtn);
+
+    return form
+  }
+
+  createAddTaskForm() {
+    const dialog = document.createElement("dialog");
+    const xBtn = document.createElement("div");
+    
+    xBtn.classList = "xBtn";
+    xBtn.setAttribute("data-feather", 'x');
+    
+    const form = this.createTaskForm();
+    form.method = "dialog";
+
     dialog.append(form, xBtn);
 
     return dialog
+  }
+
+  createEditTaskForm() {   
+    const editFormSection = document.createElement("section"); 
+    const form = this.createTaskForm("Edit Form");
+
+    //this.addTaskValues(form);
+
+    editFormSection.append(form);
+    return editFormSection
   }
 
   createInputs(key, label, inputType){
@@ -294,6 +314,12 @@ export class TodoListRender {
         this.render(form);
         feather.replace();
         return form
+    }
+
+    editTaskForm(){
+      const form = this.domBuilder.createEditTaskForm();
+      this.render(form);
+      return form
     }
 
     projectNameList(tasks){
