@@ -13,12 +13,25 @@ main{
     margin: 4rem calc(var(--default-padding) * 2.3);
 }
 
-.list > .fullCard {
-    display: grid;
-    column-gap:10px;
-    row-gap: calc(var(--default-spacing) / 2.5);
-    grid-template-columns: min-content 1fr ;
-    align-items: center;
+.dueDate::before{
+    content: "Due date: ";
+    font-size: small;
+    font-weight: 700;
+}
+
+.priority::before{
+    content: "Priority: ";
+    font-size: small;
+    font-weight: 700;
+}
+
+dialog .project::before{
+    content: "Project: ";
+    font-size: small;
+    font-weight: 700;
+}
+
+.list > div {
     border-radius: var(--borders);
     background-color:white;
     border: solid 1px black;
@@ -26,53 +39,42 @@ main{
     max-width: clamp(max(25%,270px), 15%, calc(350px + 5vw));
 }
 
-.list .fullCard h3{
-    grid-area:1/2/2/3;
+.simpleCard {
+    display: flex;
+    gap: var(--default-spacing);
+    flex-flow:row wrap;
+    align-items: center;
 }
 
-.list .fullCard input[type="checkbox"]{
-    grid-area:1/1/2/2;
+.simpleCard h3 {
+    flex:1 0 80%;
+}
+
+.simpleCard > input[type="checkbox"] {
     cursor: pointer; 
     width: 30px;
     height: 30px;
+    order: -1;
 }
 
-.list .fullCard p {
-    grid-area:2/1/3/3;
+.fullCard {
+    display: flex;
+    flex-flow:column wrap;
+    gap: calc(var(--default-spacing) * 2);
+    padding: var(--default-padding);
+    font-size: 1.2rem;
+    width: 80%;
+    max-width: 50rem;
 }
 
-.list .fullCard .dueDate{
-    grid-area:6/1/7/3;
-}
-
-.list .fullCard .dueDate::before{
-    content: "Due date: ";
-    font-size: small;
-    font-weight: 700;
-}
-
-.list .fullCard .priority{
-    grid-area:4/1/5/3;
-}
-
-.list .fullCard .priority::before{
-    content: "Priority: ";
-    font-size: small;
-    font-weight: 700;
-}
-
-.list .fullCard .project{
-    grid-area:3/1/4/3;
-}
-
-.list .fullCard .project::before{
-    content: "Project: ";
-    font-size: small;
-    font-weight: 700;
+dialog .fullCard  *::before{
+    font-size: 1.2rem;
 }
 
 .updateTask {
     display: flex;
+    flex-flow: row;
+    justify-content: center;
     gap: var(--default-spacing);
     justify-content:center;
     grid-area:7/1/8/3;
@@ -80,7 +82,7 @@ main{
 
 .updateTask > button {
     cursor: pointer; 
-    padding: calc(var(--default-padding) / 1.5);
+    padding: calc(var(--default-padding) / 2);
     border: none;
     border-radius: var(--borders);
     color: white;
@@ -93,7 +95,6 @@ main{
 .updateTask .detailsBtn:hover{
     background-color: lightslategray;
 }
-
 
 .updateTask .editBtn{
     background-color: var(--strong-color);

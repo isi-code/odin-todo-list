@@ -40,7 +40,7 @@ export class TodoListDomFactory {
 
   createTodoListCard(task) {
     const taskContainer = document.createElement("div");
-    taskContainer.classList = 'fullCard';
+    taskContainer.classList = 'simpleCard';
 
     const [id, taskInfo] = task;
 
@@ -53,19 +53,26 @@ export class TodoListDomFactory {
     return taskContainer;
   }
 
-  createTaskCard(task) {
+  createTaskDetails(taskId, taskDetails) {
+    const dialog = document.createElement("dialog");
     const taskContainer = document.createElement("div");
     taskContainer.classList = 'fullCard';
 
-    const [id, taskInfo] = task;
-
     for (const [key, { mainTag, inputType }] of Object.entries(this.#task)) {
-      const element = this.fullCard(key, mainTag, inputType, id, taskInfo);
+      const element = this.fullCard(key, mainTag, inputType, taskId, taskDetails);
       if (element) taskContainer.append(element);
     }
 
-    taskContainer.append(this.createCardBtns(id));
-    return taskContainer;
+    const xBtn = document.createElement("div");
+    xBtn.classList = "xBtn";
+    xBtn.setAttribute("data-feather", 'x');
+
+    taskContainer.querySelector("[type='checkbox']").remove();
+
+    taskContainer.append(xBtn);
+    dialog.append(taskContainer);
+
+    return dialog;
   }
 
   fullCard(key, mainTag, inputType, id, taskInfo){
@@ -95,6 +102,7 @@ export class TodoListDomFactory {
 
       switch (key) {
         case "title":
+        case "status":
         case "dueDate":
           return this.fullCard(key, mainTag, inputType, id, taskInfo);
         default:
@@ -106,10 +114,10 @@ export class TodoListDomFactory {
     const btnContainer =  document.createElement("div");
     btnContainer.classList = "updateTask";
 
-    // const detailsBtn =  document.createElement("button");
-    // detailsBtn.dataset.taskId = id;
-    // detailsBtn.classList = "detailsBtn"
-    // detailsBtn.textContent = "Task Details";
+    const detailsBtn =  document.createElement("button");
+    detailsBtn.dataset.taskId = id;
+    detailsBtn.classList = "detailsBtn"
+    detailsBtn.textContent = "Task Details";
 
     const editBtn =  document.createElement("button");
     editBtn.dataset.taskId = id;
@@ -121,7 +129,7 @@ export class TodoListDomFactory {
     removeBtn.classList = "removeBtn"
     removeBtn.textContent = "Remove Task";
 
-    btnContainer.append(/*detailsBtn,*/ editBtn, removeBtn);
+    btnContainer.append(detailsBtn, editBtn, removeBtn);
 
     return btnContainer
   }
@@ -332,6 +340,13 @@ export class TodoListRender {
         const todoList = this.domBuilder.createTodoList(tasks);
         this.renderToMain(todoList);
         return todoList
+    }
+
+    taskDetails(taskId, taskDetails){
+      const task = this.domBuilder.createTaskDetails(taskId, taskDetails);
+      this.renderToMain(task);
+      feather.replace();
+      return task
     }
 
     unfinishedTasks(tasks){

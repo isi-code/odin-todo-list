@@ -91,12 +91,12 @@ class TodoListApp {
     }
 
     taskEvents(todoList){
-        const tasks = todoList.querySelectorAll(".taskContainer");
+        const tasks = todoList.querySelectorAll(".list > div");
         
         tasks.forEach(task => {
             task.addEventListener("click", (e) => {
                 const el = e.target;
-                if (el.className === "detailsBtn") console.log("It works");
+                if (el.className === "detailsBtn") this.viewTaskFullDetails(el.dataset.taskId);
                 else if(el.className === "removeBtn") this.removeTaskBtn(el.dataset.taskId);
                 else if(el.name === "checkDone") this.markTaskDone(el.dataset.taskId);
                 else if(el.className === "editBtn") this.editTaskBtn(el.dataset.taskId);
@@ -107,6 +107,16 @@ class TodoListApp {
     markTaskDone(taskId){
         this.todoList.updateTaskStatus(taskId, true);
         this.refreshUI();    
+    }
+
+    viewTaskFullDetails(taskId){
+        const taskDetails = this.todoList.getSingleTask(taskId);
+        
+        const taskDialog = this.todoListRender.taskDetails(taskId, taskDetails);
+        taskDialog.showModal();
+        
+        const xBtn = taskDialog.querySelector(".xBtn");
+        xBtn.addEventListener("click", () => { taskDialog.remove(); });
     }
 
     removeTaskBtn(taskId) {
