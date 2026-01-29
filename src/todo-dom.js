@@ -38,40 +38,63 @@ export class TodoListDomFactory {
     };
   }
 
-  createTaskCard(task) {
+  createTodoListCard(task, className = 'fullCard') {
     const taskContainer = document.createElement("div");
-    taskContainer.classList = "taskContainer";
+    taskContainer.classList = className;
 
     const [id, taskInfo] = task;
 
     for (const [key, { mainTag, inputType }] of Object.entries(this.#task)) {
-      // Skip empty fields to keep the UI clean
-      if (taskInfo[key] !== "") {
-        const htmlElement = document.createElement(mainTag);
-        // Special handling for the checkbox/status input
-        if (key === "status") {
-          htmlElement.type = inputType;
-          htmlElement.name = 'checkDone';
-          htmlElement.checked = taskInfo[key];
-          htmlElement.disabled = taskInfo[key];
-          htmlElement.dataset.taskId = id;
-          taskContainer.append(htmlElement);
-        }
-        else {
-          htmlElement.textContent = taskInfo[key];
-          htmlElement.classList = key;
-        }
-        taskContainer.append(htmlElement);
-      }
+      const element = this.simpleCard(key, mainTag, inputType, id, taskInfo);
+      if (element) taskContainer.append(element);
     }
 
+    taskContainer.append(this.createCardBtns(id));
+    return taskContainer;
+  }
+
+  fullCard(key, mainTag, inputType, id, taskInfo){
+    // Skip empty fields to keep the UI clean
+    if (taskInfo[key] === "") return null
+
+    const htmlElement = document.createElement(mainTag);
+    // Special handling for the checkbox/status input
+    if (key === "status") {
+      htmlElement.type = inputType;
+      htmlElement.name = 'checkDone';
+      htmlElement.checked = taskInfo[key];
+      htmlElement.disabled = taskInfo[key];
+      htmlElement.dataset.taskId = id;
+      return htmlElement;
+    }
+    else {
+      htmlElement.textContent = taskInfo[key];
+      htmlElement.classList = key;
+      return htmlElement;
+    }
+  }
+
+  simpleCard(key, mainTag, inputType, id, taskInfo){
+    // Skip empty fields to keep the UI clean
+    if (taskInfo[key] === "") return null;
+
+      switch (key) {
+        case "title":
+        case "dueDate":
+          return this.fullCard(key, mainTag, inputType, id, taskInfo);
+        default:
+          return null;
+      }
+  }
+
+  createCardBtns(id){
     const btnContainer =  document.createElement("div");
     btnContainer.classList = "updateTask";
 
-    const detailsBtn =  document.createElement("button");
-    detailsBtn.dataset.taskId = id;
-    detailsBtn.classList = "detailsBtn"
-    detailsBtn.textContent = "Task Details";
+    // const detailsBtn =  document.createElement("button");
+    // detailsBtn.dataset.taskId = id;
+    // detailsBtn.classList = "detailsBtn"
+    // detailsBtn.textContent = "Task Details";
 
     const editBtn =  document.createElement("button");
     editBtn.dataset.taskId = id;
@@ -83,10 +106,9 @@ export class TodoListDomFactory {
     removeBtn.classList = "removeBtn"
     removeBtn.textContent = "Remove Task";
 
-    btnContainer.append(detailsBtn, editBtn, removeBtn);
+    btnContainer.append(/*detailsBtn,*/ editBtn, removeBtn);
 
-    taskContainer.append(btnContainer);
-    return taskContainer;
+    return btnContainer
   }
 
   createProjectCard(projectName, count) {
@@ -112,7 +134,7 @@ export class TodoListDomFactory {
     todoListSection.classList = "list";
 
     for (let task of tasks) {
-      const taskEl = this.createTaskCard(task);
+      const taskEl = this.createTodoListCard(task);
       todoListSection.append(taskEl);
     }
 

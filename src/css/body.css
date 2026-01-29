@@ -13,7 +13,7 @@ main{
     margin: 4rem calc(var(--default-padding) * 2.3);
 }
 
-.list > div {
+.list > .fullCard {
     display: grid;
     column-gap:10px;
     row-gap: calc(var(--default-spacing) / 2.5);
@@ -26,46 +26,46 @@ main{
     max-width: clamp(max(25%,270px), 15%, calc(350px + 5vw));
 }
 
-.list .taskContainer h3{
+.list .fullCard h3{
     grid-area:1/2/2/3;
 }
 
-.list .taskContainer input[type="checkbox"]{
+.list .fullCard input[type="checkbox"]{
     grid-area:1/1/2/2;
     cursor: pointer; 
     width: 30px;
     height: 30px;
 }
 
-.list .taskContainer p {
+.list .fullCard p {
     grid-area:2/1/3/3;
 }
 
-.list .taskContainer .dueDate{
+.list .fullCard .dueDate{
     grid-area:6/1/7/3;
 }
 
-.list .taskContainer .dueDate::before{
+.list .fullCard .dueDate::before{
     content: "Due date: ";
     font-size: small;
     font-weight: 700;
 }
 
-.list .taskContainer .priority{
+.list .fullCard .priority{
     grid-area:4/1/5/3;
 }
 
-.list .taskContainer .priority::before{
+.list .fullCard .priority::before{
     content: "Priority: ";
     font-size: small;
     font-weight: 700;
 }
 
-.list .taskContainer .project{
+.list .fullCard .project{
     grid-area:3/1/4/3;
 }
 
-.list .taskContainer .project::before{
+.list .fullCard .project::before{
     content: "Project: ";
     font-size: small;
     font-weight: 700;
