@@ -2,7 +2,7 @@
 
 A task management application built with Vanilla JavaScript. This project focuses on object-oriented programming principles, module-based code structure, and persistent data storage.
 
-[Live Demo]()
+[Live Demo](https://isi-code.github.io/odin-todo-list/)
 
 ## Built With
 
