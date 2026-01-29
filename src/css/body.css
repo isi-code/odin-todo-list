@@ -185,4 +185,10 @@ form button:hover {
     display: flex; 
     cursor: pointer;
     column-gap: var(--default-spacing);
+    align-items: center;
+    border-radius: var(--borders);
+    background-color:white;
+    border: solid 1px black;
+    padding: var(--default-padding);
+    max-width: clamp(max(25%,270px), 15%, calc(350px + 5vw));
 }

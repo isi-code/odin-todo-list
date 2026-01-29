@@ -38,14 +38,29 @@ export class TodoListDomFactory {
     };
   }
 
-  createTodoListCard(task, className = 'fullCard') {
+  createTodoListCard(task) {
     const taskContainer = document.createElement("div");
-    taskContainer.classList = className;
+    taskContainer.classList = 'fullCard';
 
     const [id, taskInfo] = task;
 
     for (const [key, { mainTag, inputType }] of Object.entries(this.#task)) {
       const element = this.simpleCard(key, mainTag, inputType, id, taskInfo);
+      if (element) taskContainer.append(element);
+    }
+
+    taskContainer.append(this.createCardBtns(id));
+    return taskContainer;
+  }
+
+  createTaskCard(task) {
+    const taskContainer = document.createElement("div");
+    taskContainer.classList = 'fullCard';
+
+    const [id, taskInfo] = task;
+
+    for (const [key, { mainTag, inputType }] of Object.entries(this.#task)) {
+      const element = this.fullCard(key, mainTag, inputType, id, taskInfo);
       if (element) taskContainer.append(element);
     }
 
